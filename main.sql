@@ -19,8 +19,8 @@ CREATE TABLE employee(
                          firstName varchar(25),
                          lastName varchar(25),
                          login varchar(25),
-                         passwd varchar(25),
-                         phone varchar(13),
+                         passwd varchar(100),
+                         phone varchar(25),
                          workingDays varchar(10),
                          salary decimal,
                          PRIMARY KEY (id)
@@ -33,6 +33,7 @@ VALUES
     ('Sheila','Padilla','Sheila','19869AC8-36D3-D9ED-6973-E5A42B469D4B','(360) 485-0822','пн-пт',275),
     ('Jackson','Curtis','Jackson','AC3D8018-B34E-9792-CA4D-D18C32D8325C','1-457-742-9850','пн-пт',300);
 
+
 CREATE TABLE outlet(
                        id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                        address varchar(50),
@@ -41,6 +42,14 @@ CREATE TABLE outlet(
                        FOREIGN KEY (employee_id)REFERENCES employee(id),
                        PRIMARY KEY (id)
 );
+INSERT INTO outlet(address, tax, employee_id)
+VALUES
+    ('P.O. Box 419, 8851 Vitae St.',15.0,1),
+    ('8403 Proin Rd.',13.0,2),
+    ('Ap #760-2926 Et Avenue',14.0,3),
+    ('982-9846 Commodo Street',16.0,4),
+    ('P.O. Box 204, 1339 Nascetur Rd.',10.0,5);
+
 CREATE TABLE item_note(
                           id int GENERATED ALWAYS AS IDENTITY UNIQUE ,
                           note varchar(50),
