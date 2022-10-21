@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS outlet CASCADE;
 DROP TABLE IF EXISTS mainStock CASCADE;
 DROP TABLE IF EXISTS outletStock CASCADE;
 DROP TABLE IF EXISTS ordersList CASCADE;
+DROP TABLE IF EXISTS orderToStock CASCADE;
 DROP TABLE IF EXISTS provider CASCADE;
 DROP TABLE IF EXISTS ksa CASCADE;
 DROP TABLE IF EXISTS receipt CASCADE;
@@ -314,11 +315,15 @@ VALUES (1,1,12),
 
 CREATE TABLE receipt(
                         id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                        employee_id int,
+                        employee_id int REFERENCES employee(id),
                         order_id int REFERENCES orders(id),
+                        customer_id int REFERENCES customer(id),
                         PRIMARY KEY (id),
                         FOREIGN KEY (employee_id) REFERENCES employee(id)
 );
+INSERT INTO receipt(employee_id, order_id,customer_id)
+VALUES (1,1,1),
+       (2,2,2);
 
 CREATE TABLE owner(
                       username varchar(50),
