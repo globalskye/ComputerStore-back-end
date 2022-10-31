@@ -221,13 +221,7 @@ CREATE TABLE mainStock(
                           itemCount int
 );
 INSERT INTO mainStock(item_id, itemCount)
-VALUES (1,44),
-       (2,22),
-       (3,32),
-       (4,42),
-       (5,12),
-       (6,414),
-       (7,23),
+VALUES
        (8,55),
        (9,11),
        (10,12);
@@ -279,22 +273,22 @@ CREATE TABLE orders(
                        ksa_id int REFERENCES ksa(id),
                        PRIMARY KEY (id)
 );
-INSERT INTO orders(date,  cash, taxes, item_id, customer_id, employee_id, ksa_id)
-VALUES  ('Nov 2, 2021',true,1,1,1,1,1),
-        ('Mar 4, 2023',false,1,2,2,2,2);
+INSERT INTO orders(date, price,  cash, taxes, item_id, customer_id, employee_id, ksa_id)
+VALUES  ('Nov 2, 2021',200,true,1,1,1,1,1),
+        ('Mar 4, 2023',500,false,1,2,2,2,2);
 
 CREATE TABLE orderToStock(
                            id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                           date date,
+                           date timestamp,
                            item_id int REFERENCES item(id),
                            employee_id int REFERENCES employee(id)
 );
 INSERT INTO orderToStock(date, item_id, employee_id)
-VALUES   ('Dec 8, 2021',3,3),
-         ('Jun 9, 2022',4,4),
-         ('Jun 23, 2023',5,5),
-         ('Sep 16, 2022',6,5),
-         ('Jun 20, 2023',7,5);
+VALUES   ('2022-10-19',3,3),
+         ('2022-10-21',4,4),
+         ('2022-10-22',5,5),
+         ('2022-10-23',6,5),
+         ('2022-10-24',7,5);
 
 
 CREATE TABLE outletStock(
@@ -339,6 +333,8 @@ JOIN employee e on e.id = outlet.employee_id;
 
 
 */
+
+
 
 
 

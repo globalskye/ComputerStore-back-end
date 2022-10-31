@@ -34,4 +34,9 @@ LEFT  JOIN orders o on outletstock.item_id = o.item_id
 WHERE (o.date BETWEEN 'Nov 2, 2020' AND 'Nov 2, 2026') AND (o.item_id IS NULL);
 
 SELECT * FROM ordertostock
+WHERE( date BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7
+          AND NOW()::DATE-EXTRACT(DOW from NOW())::INTEGER
+)AND (employee_id=3);
 
+
+SELECT * FROM orders
