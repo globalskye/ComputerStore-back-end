@@ -1,8 +1,12 @@
 package service
 
-import "course_work/pkg/repository"
+import (
+	"course_work/pkg/model"
+	"course_work/pkg/repository"
+)
 
 type Authorization interface {
+	CreateUser(user model.User) (int, error)
 }
 
 type CourseWork interface {
@@ -13,6 +17,8 @@ type Service struct {
 	CourseWork
 }
 
-func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+func NewService(repo *repository.Repository) *Service {
+	return &Service{
+		Authorization: NewAuthService(repo.Authorization),
+	}
 }

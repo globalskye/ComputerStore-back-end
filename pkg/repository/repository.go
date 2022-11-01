@@ -1,10 +1,12 @@
 package repository
 
 import (
+	"course_work/pkg/model"
 	"github.com/jackc/pgx"
 )
 
 type Authorization interface {
+	CreateUser(user model.User) (int, error)
 }
 
 type CourseWork interface {
@@ -16,5 +18,7 @@ type Repository struct {
 }
 
 func NewRepository(db *pgx.Conn) *Repository {
-	return &Repository{}
+	return &Repository{
+		Authorization: NewAuthPostgres(db),
+	}
 }
