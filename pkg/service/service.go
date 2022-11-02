@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user model.User) (int, error)
+	GenerateAccessToken(username, password string) (string, error)
 }
 
 type CourseWork interface {

@@ -2,10 +2,14 @@ package handler
 
 import (
 	"course_work/pkg/model"
-	"course_work/pkg/repository"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+
+type userInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
 
 func (h *Handler) signUp(c *gin.Context) {
 	var user model.User
@@ -24,10 +28,17 @@ func (h *Handler) signUp(c *gin.Context) {
 
 }
 func (h *Handler) signIn(c *gin.Context) {
-	db, _ := repository.NewPostgresDb()
-	row := db.QueryRow("INSERT INTO users (username, email, password_hash) VALUES($1,$2,$3) RETURNING id", "4", "4", "4")
-	var id int
-	row.Scan(&id)
+	var user userInput
 
-	c.JSON(http.StatusOK, map[string]interface{}{"id": id})
+	if err := c.BindJSON(&user); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	token, err := h.services.Authorization.GenerateAccessToken(user.Username, user.Password)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
 }
