@@ -24,19 +24,36 @@ GROUP BY employee_id;
 /*Вывести суммарный доход фирмы за указанный период времени, отдельно учитывая «наличные» и
 «безналичные» сделки.*/
 
+/*«наличные»*/
 SELECT sum(price) FROM orders WHERE cash = true;
-
+/*«безналичные»*/
 SELECT sum(price) FROM orders WHERE cash = false;
 
 
-SELECT  outlet_id ,outletstock.item_id FROM outletstock
-LEFT  JOIN orders o on outletstock.item_id = o.item_id
-WHERE (o.date BETWEEN 'Nov 2, 2020' AND 'Nov 2, 2026') AND (o.item_id IS NULL);
-
+/*Заказы указанного продавца в течение текущей недели.*/
 SELECT * FROM ordertostock
-WHERE( date BETWEEN NOW()::DATE-EXTRACT(DOW FROM NOW())::INTEGER-7
-          AND NOW()::DATE-EXTRACT(DOW from NOW())::INTEGER
-)AND (employee_id=3);
+WHERE( date > now() - interval '7 days') AND (employee_id=3);
 
 
-SELECT * FROM orders
+/*Отчет в виде графика работы конкретного продавца (дата, Ф.И.О., торговая точка) за месяц*/
+SELECT date,e.lastname, e.firstname, o.address FROM workingdays
+    JOIN employee e on e.id = workingdays.employee_id
+    JOIN outlet o on e.id = o.employee_id
+    WHERE date > now() - interval '30 days';
+
+/*Торговый оборот по торговым точкам (сумма выручки за месяц).*/
+
+SELECT sum(price), o.address FROM orders
+    JOIN ksa k on orders.ksa_id = k.id
+    JOIN outlet o on k.outlet_id = o.id
+WHERE o.id=1
+GROUP BY o.address;
+
+
+
+/*Превышен лимит кассы (ksa)*/
+SELECT o.address FROM orders
+                          JOIN ksa k on orders.ksa_id = k.id
+                          JOIN outlet o on k.outlet_id = o.id
+         GROUP BY orders.id, k.ksa_limit, k.id, o.id
+HAVING sum(orders.price) > k.ksa_limit

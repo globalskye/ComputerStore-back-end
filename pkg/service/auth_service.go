@@ -4,6 +4,7 @@ import (
 	"course_work/pkg/model"
 	"course_work/pkg/repository"
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"os"
@@ -13,13 +14,14 @@ import (
 type AuthService struct {
 	repo repository.Authorization
 }
-type jwtTokenClaims struct {
-	jwt.StandardClaims
-	UserId int `json:"user_id"`
-}
 
 func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo: repo}
+}
+
+type jwtTokenClaims struct {
+	jwt.StandardClaims
+	UserId int `json:"user_id"`
 }
 
 func (a *AuthService) CreateUser(user model.User) (int, error) {
@@ -45,5 +47,21 @@ func (a *AuthService) GenerateAccessToken(username, password string) (string, er
 		UserId: user.ID,
 	})
 	return token.SignedString([]byte(os.Getenv("JWT_KEY")))
+}
+func (a *AuthService) ParseAccessToken(accessToken string) (int, error) {
+	token, err := jwt.ParseWithClaims(accessToken, &jwtTokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("invalid signing method")
+		}
+		return []byte(os.Getenv("JWT_KEY")), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+	claims, ok := token.Claims.(*jwtTokenClaims)
+	if !ok {
+		return 0, errors.New("bad token claims type")
+	}
+	return claims.UserId, nil
 
 }

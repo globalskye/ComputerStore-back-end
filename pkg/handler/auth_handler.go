@@ -40,5 +40,5 @@ func (h *Handler) signIn(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, map[string]interface{}{"token": token})
+	c.JSON(http.StatusOK, map[string]interface{}{"accessToken": token})
 }

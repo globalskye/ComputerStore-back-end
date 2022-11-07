@@ -10,16 +10,22 @@ type Authorization interface {
 	GetUser(username, password string) (model.User, error)
 }
 
-type CourseWork interface {
+type CustomerI interface {
+	Create(customer model.Customer) (int, error)
+	GetList() ([]model.Customer, error)
+	GetById(id int) model.Customer
+	Patch(customer model.Customer) (int, error)
+	Delete(id int) error
 }
 
 type Repository struct {
 	Authorization
-	CourseWork
+	CustomerI
 }
 
 func NewRepository(db *pgx.Conn) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		CustomerI:     NewCustomerPostgres(db),
 	}
 }

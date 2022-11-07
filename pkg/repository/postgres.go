@@ -7,15 +7,6 @@ import (
 	"os"
 )
 
-type DbConfig struct {
-	Host     string
-	Port     string
-	Username string
-	Password string
-	DBName   string
-	SSLmode  string
-}
-
 func NewPostgresDb() (*pgx.Conn, error) {
 
 	db, err := pgx.Connect(pgx.ConnConfig{

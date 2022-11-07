@@ -36,5 +36,6 @@ func main() {
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error to running http server : %s", err)
 	}
+	logrus.Infof("Server working on @localhost:%s", viper.GetString("port"))
 
 }

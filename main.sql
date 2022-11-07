@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS workingDays CASCADE;
 DROP TABLE IF EXISTS employee CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
@@ -12,8 +13,10 @@ DROP TABLE IF EXISTS orderToStock CASCADE;
 DROP TABLE IF EXISTS provider CASCADE;
 DROP TABLE IF EXISTS ksa CASCADE;
 DROP TABLE IF EXISTS receipt CASCADE;
-DROP TABLE IF EXISTS owner CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS taxes CASCADE;
+
+
 
 CREATE TABLE employee(
                          id int GENERATED ALWAYS AS IDENTITY UNIQUE,
@@ -22,11 +25,11 @@ CREATE TABLE employee(
                          login varchar(25),
                          passwd varchar(100),
                          phone varchar(25),
-                         workingDays varchar(10),
+                         workTime varchar(10),
                          salary decimal,
                          PRIMARY KEY (id)
 );
-INSERT INTO employee (firstName,lastName,login,passwd,phone,workingDays,salary)
+INSERT INTO employee (firstName,lastName,login,passwd,phone,workTime,salary)
 VALUES
     ('Dexter','Roberts','Dexter','3A400F99-5646-9FBA-7445-EB9ACCF79397','(375) 371-1106','пн-пт',200),
     ('Tatiana','Bolton','Tatiana','1829DB78-7C70-6A1A-B6D7-34AE42E3DB16','(415) 473-0673','пн-пт',225),
@@ -34,6 +37,18 @@ VALUES
     ('Sheila','Padilla','Sheila','19869AC8-36D3-D9ED-6973-E5A42B469D4B','(360) 485-0822','пн-пт',275),
     ('Jackson','Curtis','Jackson','AC3D8018-B34E-9792-CA4D-D18C32D8325C','1-457-742-9850','пн-пт',300);
 
+CREATE TABLE workingDays(
+                            id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+                            date date,
+                            employee_id int REFERENCES employee(id),
+
+                            PRIMARY KEY (id)
+
+);
+INSERT INTO workingDays(date, employee_id)
+VALUES ('Sep 1, 2023',1),
+       ('Sep 2, 2023',1),
+       ('Sep 3, 2023',1);
 
 CREATE TABLE outlet(
                        id int GENERATED ALWAYS AS IDENTITY UNIQUE,
@@ -67,8 +82,8 @@ VALUES ('Mar 15, 2023',125,15),
        ('Dec 21, 2022',434,15),
        ('Jul 11, 2023',233,15),
        ('Apr 14, 2022',241,51),
-       ('Sep 16, 2023',123,61),
-       ('May 31, 2023',124,53);
+       ('Sep 1, 2022',123,61),
+       ('Sep 2, 2022',124,53);
 
 
 
@@ -251,7 +266,7 @@ CREATE TABLE ksa
 (
     id        int GENERATED ALWAYS AS IDENTITY UNIQUE,
     outlet_id int,
-    ksa_limit decimal,
+    ksa_limit int,
     PRIMARY KEY (id),
     FOREIGN KEY (outlet_id) REFERENCES outlet (id)
 );
@@ -275,7 +290,9 @@ CREATE TABLE orders(
 );
 INSERT INTO orders(date, price,  cash, taxes, item_id, customer_id, employee_id, ksa_id)
 VALUES  ('Nov 2, 2021',200,true,1,1,1,1,1),
-        ('Mar 4, 2023',500,false,1,2,2,2,2);
+        ('Mar 4, 2023',500,false,1,2,2,2,2),
+        ('Mar 3, 2023',1000,false,1,2,2,2,2);
+
 
 CREATE TABLE orderToStock(
                            id int GENERATED ALWAYS AS IDENTITY UNIQUE,
@@ -284,7 +301,7 @@ CREATE TABLE orderToStock(
                            employee_id int REFERENCES employee(id)
 );
 INSERT INTO orderToStock(date, item_id, employee_id)
-VALUES   ('2022-10-19',3,3),
+VALUES   ('2022-11-2',3,3),
          ('2022-10-21',4,4),
          ('2022-10-22',5,5),
          ('2022-10-23',6,5),
@@ -319,20 +336,20 @@ INSERT INTO receipt(employee_id, order_id,customer_id)
 VALUES (1,1,1),
        (2,2,2);
 
-CREATE TABLE owner(
-                      username varchar(50),
-                      passwd varchar(50)
-
+CREATE TABLE users(
+                     id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+                      username varchar(255),
+                      email varchar (255),
+                      password_hash varchar(255)
 );
 
-/*INSERT INTO taxes (nds, nrt) VALUES (20,13);*/
-/*
-SELECT e.firstName, e.lastName FROM outlet
-JOIN employee e on e.id = outlet.employee_id;
+CREATE TABLE order_to_provider(
+    id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+    date time,
+    item int REFERENCES item(id)
+)
 
 
-
-*/
 
 
 

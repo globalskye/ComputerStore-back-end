@@ -1,4 +1,1 @@
-GET http://127.0.0.1:8080/send/test
-
-
-###
+http://localhost:8080/auth/sign-in
