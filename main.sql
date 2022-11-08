@@ -15,6 +15,7 @@ DROP TABLE IF EXISTS ksa CASCADE;
 DROP TABLE IF EXISTS receipt CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS taxes CASCADE;
+DROP TABLE IF EXISTS order_to_provider CASCADE;
 
 
 
@@ -40,15 +41,32 @@ VALUES
 CREATE TABLE workingDays(
                             id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                             date date,
-                            employee_id int REFERENCES employee(id),
-
+                            employee_id int,
+                            FOREIGN KEY (employee_id)REFERENCES employee(id),
                             PRIMARY KEY (id)
 
 );
 INSERT INTO workingDays(date, employee_id)
-VALUES ('Sep 1, 2023',1),
-       ('Sep 2, 2023',1),
-       ('Sep 3, 2023',1);
+VALUES ('Nov 3, 2021',2),
+       ('Nov 3, 2021',2),
+       ('Nov 7, 2021',1),
+       ('Nov 3, 2021',1),
+       ('Nov 3, 2021',5),
+       ('Nov 2, 2021',4),
+       ('Nov 7, 2021',4),
+       ('Nov 5, 2021',5),
+       ('Nov 7, 2021',2),
+       ('Nov 2, 2021',4),
+       ('Nov 7, 2021',3),
+       ('Nov 6, 2021',2),
+       ('Nov 4, 2021',1),
+       ('Nov 2, 2021',2),
+       ('Nov 3, 2021',3),
+       ('Nov 6, 2021',4),
+       ('Nov 1, 2021',1),
+       ('Nov 7, 2021',5);
+
+
 
 CREATE TABLE outlet(
                        id int GENERATED ALWAYS AS IDENTITY UNIQUE,
