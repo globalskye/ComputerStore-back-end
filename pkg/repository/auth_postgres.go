@@ -25,6 +25,7 @@ func (a *AuthPostgres) CreateUser(user model.User) (int, error) {
 	return id, nil
 }
 func (a *AuthPostgres) GetUser(username, password string) (model.User, error) {
+
 	query := "SELECT id FROM users WHERE username=$1 AND password_hash=$2"
 	var user model.User
 	row := a.db.QueryRow(query, username, password)

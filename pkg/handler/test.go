@@ -12,16 +12,7 @@ type test struct {
 }
 
 func (h *Handler) test(c *gin.Context) {
-	/*	users := []test{
-			{Id: 2, Desc: "Roger Roe", Occupation: "driver"},
-			{Id: 3, Desc: "Lucy Smith", Occupation: "teacher"},
-			{Id: 4, Desc: "David Brown", Occupation: "programmer"},
-		}
-		json_data2, err := json.Marshal(users)
-		if err != nil {
 
-			log.Fatal(err)
-		}*/
 	c.JSON(http.StatusOK, []map[string]interface{}{
 		{
 			"id":          1,
