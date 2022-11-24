@@ -1,29 +1,45 @@
 package repository
 
 import (
+	"context"
 	"course_work/pkg/model"
-	"fmt"
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type ProductPostgres struct {
-	db *pgx.Conn
+	db *pgxpool.Pool
+}
+
+func (p ProductPostgres) GetAllCategories() ([]model.ProductCategory, error) {
+	query := "SELECT _category FROM item_category"
+	rows, err := p.db.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+
+	categories, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.ProductCategory])
+
+	return categories, err
 }
 
 func (p ProductPostgres) GetAll() ([]model.Product, error) {
-	var products []model.Product
-	query := "SELECT item.id, ii.itemname ,ii.itemimage,ii.itemdescription,inote.price,ii.garantia from item" +
+
+	query := "SELECT item.id, ii.itemname ,ii.itemimage,ii.itemdescription,inote.price,ii.garantia,ic._category from item" +
 		" JOIN item_note inote on inote.id = item.note_id" +
-		" JOIN item_info ii on ii.id = item.info_id"
+		" JOIN item_info ii on ii.id = item.info_id" +
+		" JOIN item_category ic on ic.id = item.category_id"
 
-	row := p.db.QueryRow(query)
-	fmt.Println(row)
-	err := row.Scan(&products)
+	rows, err := p.db.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	items, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.Product])
 
-	return products, err
+	return items, err
 
 }
 
-func NewProductPostgres(db *pgx.Conn) *ProductPostgres {
+func NewProductPostgres(db *pgxpool.Pool) *ProductPostgres {
 	return &ProductPostgres{db: db}
 }

@@ -2,21 +2,13 @@ package repository
 
 import (
 	"context"
-	"github.com/jackc/pgx/v5"
-	"github.com/spf13/viper"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"os"
 )
 
-func NewPostgresDb() (*pgx.Conn, error) {
+func NewPostgresDb() (*pgxpool.Pool, error) {
 
-	config := pgx.ConnConfig{
-		Host:     viper.GetString("db.host"),
-		Port:     viper.GetUint16("db.port"),
-		Database: viper.GetString("db.dbname"),
-		User:     viper.GetString("db.username"),
-		Password: os.Getenv("POSTGRES_PASS"),
-	}
-	db, err := pgx.Connect(context.Background())
+	db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		return nil, err
 	}

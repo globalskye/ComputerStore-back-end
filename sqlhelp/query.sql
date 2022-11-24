@@ -1,5 +1,5 @@
 /*Вывести перечень товаров, находящихся в указанном торговом зале*/
-SELECT ii.itemname,ii.iteminfo,ii.garantia , itemcount from outletstock
+SELECT ii.itemname,ii.itemDescription,ii.garantia , itemcount from outletstock
 JOIN item i on i.id = outletstock.item_id
 JOIN item_info ii on ii.id = i.info_id;
 
@@ -57,3 +57,10 @@ SELECT o.address FROM orders
                           JOIN outlet o on k.outlet_id = o.id
          GROUP BY orders.id, k.ksa_limit, k.id, o.id
 HAVING sum(orders.price) > k.ksa_limit
+
+SELECT item.id, ii.itemname ,ii.itemimage,ii.itemdescription,inote.price,ii.garantia,ic._category from item
+JOIN item_note inote on inote.id = item.note_id
+JOIN item_info ii on ii.id = item.info_id
+JOIN item_category ic on ic.id = item.category_id
+
+SELECT _category FROM item_category

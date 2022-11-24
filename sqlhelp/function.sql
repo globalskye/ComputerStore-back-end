@@ -18,16 +18,16 @@ CREATE FUNCTION GetPriceWithNds(orderId integer)
     RETURNS decimal
 AS $$
     BEGIN
-        DECLARE FirstPrice decimal;
+        DECLARE price decimal;
         DECLARE Tax decimal;
         DECLARE lastPrice decimal;
     BEGIN
             SELECT orders.price FROM orders
             WHERE orders.id = orderId
-            INTO FirstPrice;
+            INTO price;
             SELECT taxes.nds FROM taxes
             INTO Tax;
-            lastPrice := FirstPrice- FirstPrice%Tax;
+            lastPrice := price- price%Tax;
             RETURN (lastPrice);
 
         end;

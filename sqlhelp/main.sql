@@ -16,6 +16,8 @@ DROP TABLE IF EXISTS receipt CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS taxes CASCADE;
 DROP TABLE IF EXISTS order_to_provider CASCADE;
+DROP TABLE IF EXISTS item_category CASCADE;
+
 
 
 
@@ -87,128 +89,53 @@ VALUES
 CREATE TABLE item_note(
                           id int GENERATED ALWAYS AS IDENTITY UNIQUE ,
                           date_of_delivery date,
-                          firstPrice decimal,
+                          price decimal,
                           firstTax int,
                           PRIMARY KEY (id)
 );
-INSERT INTO item_note(date_of_delivery, firstPrice, firstTax)
-VALUES ('Mar 15, 2023',125,15),
-       ('Apr 6, 2023',324,15),
-       ('Jul 23, 2023',234,15),
-       ('Jul 25, 2023',244,15),
+INSERT INTO item_note(date_of_delivery, price, firstTax)
+VALUES ('Mar 15, 2023',249,15),
+       ('Apr 6, 2023',229,15),
+       ('Jul 23, 2023',319,15),
+       ('Jul 25, 2023',459,15),
        ('May 20, 2023',321,15),
        ('Dec 21, 2022',434,15),
-       ('Jul 11, 2023',233,15),
-       ('Apr 14, 2022',241,51),
+       ('Jul 11, 2023',288,15),
+       ('Apr 14, 2022',123,51),
        ('Sep 1, 2022',123,61),
        ('Sep 2, 2022',124,53);
 
+CREATE TABLE item_category(
+    id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+    _category VARCHAR(255)
+);
+INSERT INTO item_category(_category)
+VALUES ('Smartphone'),
+       ('Laptop'),
+       ('Mouse'),
+       ('Keyboard');
 
 
 CREATE TABLE item_info(
                           id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                           itemname varchar(255),
-                          iteminfo text,
+                          itemimage varchar(255),
+                          itemDescription text,
                           garantia int
 );
-INSERT INTO item_info(itemname, iteminfo, garantia)
-VALUES ('Телевизор Blaupunkt 32HB5000T','
-Диагональ	32" (80 см)
-Разрешение	1366x768 (HD)
-Частота обновления	60 Гц
-Smart TV	есть
-Операционная система	Android TV (9.0)
-Беспроводные интерфейсы	Bluetooth (5.0), Wi-Fi (802.11a/b/g/n)
-Количество HDMI	2
-Толщина панели	80 мм',12),
+INSERT INTO item_info(itemname, itemDescription, garantia,itemimage)
+VALUES ('Смартфон Huawei nova 10 NCO-LX1 8GB/128GB (мерцающий серебристый)','Android, экран 6.67" OLED (1080x2400), Qualcomm Snapdragon 778G, ОЗУ 8 ГБ, флэш-память 128 ГБ, камера 50 Мп, аккумулятор 4000 мАч, 2 SIM',12,'https://content2.onliner.by/catalog/device/header/493e85704849c1901776af1c8cdecba8.jpeg'),
+       ('Смартфон HONOR X7 4GB/128GB (титановый серебристый)','Android, экран 6.74" IPS (720x1600), Qualcomm Snapdragon 680, ОЗУ 4 ГБ, флэш-память 128 ГБ, карты памяти, камера 48 Мп, аккумулятор 5000 мАч, 2 SIM',12,'https://content2.onliner.by/catalog/device/header/3b307bf8affc58c8b7055f10e36d3eef.jpeg'),
+       ('Смартфон Tecno Camon 19 Pro 8GB/128GB (эко черный)','Android, экран 6.8" IPS (1080x2460), Mediatek Helio G96, ОЗУ 8 ГБ, флэш-память 128 ГБ, камера 64 Мп, аккумулятор 5000 мАч, 2 SIM',12,'https://content2.onliner.by/catalog/device/header/f257877735c6afc711cdcc04878edf9b.jpeg'),
+       ('Смартфон Apple iPhone 11 64GB Воcстановленный by Breezy, грейд B (фиолетовый)','Apple iOS, экран 6.1" IPS (828x1792), Apple A13 Bionic, ОЗУ 4 ГБ, флэш-память 64 ГБ, камера 12 Мп, аккумулятор 3046 мАч, 1 SIM, влагозащита IP68',12,'https://content2.onliner.by/catalog/device/header/4e5c922c2e7e7250e7ba90ba06330ab1.jpeg'),
+       ('Смартфон POCO X4 GT 8GB/128GB международная версия (серебристый)','Android, экран 6.6" IPS (1080x2460), Mediatek Dimensity 8100, ОЗУ 8 ГБ, флэш-память 128 ГБ, камера 64 Мп, аккумулятор 5080 мАч, 2 SIM',12,'https://content2.onliner.by/catalog/device/header/1f52e804d859b6dc0bfc95de5dd82040.jpeg'),
+       ('Смартфон Xiaomi Redmi 9A 2GB/32GB международная версия (серый)','Android, экран 6.53" IPS (720x1600), Mediatek Helio G25, ОЗУ 2 ГБ, флэш-память 32 ГБ, карты памяти, камера 13 Мп, аккумулятор 5000 мАч, 2 SIM',12,'https://content2.onliner.by/catalog/device/header/47f365ecf82722c2a2c62089016b38e1.jpeg'),
+       ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53',12,'https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg'),
+       ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53',12,'https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg'),
+       ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53',12,'https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg'),
+       ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53',12,'https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg'),
+       ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53',12,'https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg');
 
-('Телевизор Витязь 24LH1207','
-Диагональ	24" (61 см)
-Разрешение	1366x768 (HD)
-Smart TV	есть
-Операционная система	Яндекс.ТВ (Android 11)
-Беспроводные интерфейсы	Wi-Fi
-Количество HDMI	2
-Толщина панели	72 мм',12),
-
-('Телевизор Xiaomi Mi TV P1 43 (L43M6-6ARG) / ELA4624GL','
-Диагональ	43" (108 см)
-Разрешение	3840x2160 (4K UHD)
-Частота обновления	60 Гц
-Расширенный динамический диапазон (HDR)	есть
-Smart TV	есть
-Операционная система	Android TV (10)
-Беспроводные интерфейсы	Bluetooth (5.0), Wi-Fi (2,4 ГГц/5 ГГц)
-Количество HDMI	3
-Толщина панели	84.8',12),
-
-('Смартфон Xiaomi Redmi 9C 4GB/128GB без NFC (серый)','
-Диагональ экрана	6.53 ″
-Оперативная память	4 Гб
-Постоянная память	128 Гб
-Версия операционной системы	Android 10.0
-Дополнительный модуль камеры	есть, датчик глубины, макрообъектив
-Разрешение камеры	13 Мп
-Кол-во SIM-карт	2
-Емкость аккумулятора	5000 мАч
-Процесс зарядки	быстрая зарядка, стандартная зарядка',12),
-
-('Смартфон Xiaomi Redmi 9A 2GB/32GB (серый)','
-Диагональ экрана	6.53 ″
-Оперативная память	2 Гб
-Постоянная память	32 Гб
-Версия операционной системы	Android 10.0
-Разрешение камеры	13 Мп
-Кол-во SIM-карт	2
-Емкость аккумулятора	5000 мАч
-Процесс зарядки	быстрая зарядка, стандартная зарядка',12),
-
-('Смартфон Xiaomi Redmi 9A 2GB/32GB (зеленый)','
-Диагональ экрана	6.53 ″
-Оперативная память	2 Гб
-Постоянная память	32 Гб
-Версия операционной системы	Android 10.0
-Разрешение камеры	13 Мп
-Кол-во SIM-карт	2
-Емкость аккумулятора	5000 мАч
-Процесс зарядки	быстрая зарядка, стандартная зарядка',12),
-
-('Умные часы Haylou LS02 (черный)','
-Вид часов	фитнес-часы
-Вибросигнал	есть
-Размер экрана	1.4 ″
-Класс защиты	IP68
-Время автономной работы	480 ч
-Дистанционное управление	музыка',6),
-
-('Умные часы Canyon CNS-SW74BL','
-Вид часов	часы-компаньон
-Вибросигнал	есть
-Функции	управление воспроизведением, фонарик
-Размер экрана	1.3 ″
-Класс защиты	IP67
-Время автономной работы	120 ч (5 дней активной работы)
-Дистанционное управление	камера смартфона, музыка',6),
-
-('Умные часы Realme Watch 2 / RMW2008 (черный)','
-Вид часов	фитнес-часы
-Вибросигнал	есть
-Размер экрана	1.4 ″ (3.5)
-Класс защиты	IP68
-Время автономной работы	288 ч (теоретическое время работы 12 дней)
-Дистанционное управление	камера смартфона',12),
-
-('Умные часы Apple Watch Series 7 GPS 41mm / MKMY3 (алюминий белый/сияющая звезда)
-ПРЕМИУМ','
-Вид часов	часы-компаньон
-Программная платформа	Watch OS
-Вибросигнал	есть
-Функции	управление воспроизведением, экстренный вызов SOS
-Размер экрана	1.69 ″
-Влагозащита	50 м
-Класс защиты	IP6X
-Время автономной работы	18 ч
-Дистанционное управление	музыка',12);
 
 CREATE TABLE provider(
                          id int GENERATED ALWAYS AS IDENTITY UNIQUE,
@@ -233,19 +160,20 @@ CREATE TABLE item(
                      note_id int REFERENCES item_note(id),
                      info_id int REFERENCES item_info(id),
                      provider_id int REFERENCES provider(id),
+                     category_id int REFERENCES item_category(id),
                      PRIMARY KEY (id)
 );
-INSERT INTO item(note_id, info_id, provider_id)
-VALUES   (1,1,1),
-         (2,2,2),
-         (3,3,3),
-         (4,4,4),
-         (5,5,5),
-         (6,6,6),
-         (7,7,7),
-         (8,8,8),
-         (9,9,9),
-         (10,10,10);
+INSERT INTO item(note_id, info_id, provider_id, category_id)
+VALUES   (1,1,1,1),
+         (2,2,2,1),
+         (3,3,3,1),
+         (4,4,4,1),
+         (5,5,5,1),
+         (6,6,6,1),
+         (7,7,7,1),
+         (8,8,8,2),
+         (9,9,9,2),
+         (10,10,10,2);
 
 
 

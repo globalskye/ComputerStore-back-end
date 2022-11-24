@@ -2,7 +2,7 @@ package repository
 
 import (
 	"course_work/pkg/model"
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Authorization interface {
@@ -12,6 +12,7 @@ type Authorization interface {
 
 type ProductI interface {
 	GetAll() ([]model.Product, error)
+	GetAllCategories() ([]model.ProductCategory, error)
 }
 
 type Repository struct {
@@ -19,7 +20,7 @@ type Repository struct {
 	ProductI
 }
 
-func NewRepository(db *pgx.Conn) *Repository {
+func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		ProductI:      NewProductPostgres(db),
