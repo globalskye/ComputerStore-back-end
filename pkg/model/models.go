@@ -6,6 +6,14 @@ type User struct {
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+type Product struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Image       string `json:"image"`
+	Description string `json:"description"`
+	Price       uint32 `json:"price"`
+	Garantia    uint32 `json:"garantia"`
+}
 
 type Customer struct {
 	ID        int    `json:"id"`

@@ -11,22 +11,18 @@ type Authorization interface {
 	ParseAccessToken(token string) (int, error)
 }
 
-type CustomerI interface {
-	Create(customer model.Customer) (int, error)
-	GetList() ([]model.Customer, error)
-	GetById(id int) model.Customer
-	Patch(customer model.Customer) (int, error)
-	Delete(id int) error
+type ProductI interface {
+	GetAll() ([]model.Product, error)
 }
 
 type Service struct {
 	Authorization
-	CustomerI
+	ProductI
 }
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repo.Authorization),
-		CustomerI:     NewCustomerService(repo.CustomerI),
+		ProductI:      NewProductService(repo.ProductI),
 	}
 }
