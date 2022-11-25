@@ -13,6 +13,7 @@ type Authorization interface {
 
 type ProductI interface {
 	GetAll() ([]model.Product, error)
+	GetAllCategories() ([]model.Categories, error)
 }
 
 type Service struct {

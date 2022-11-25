@@ -1,12 +1,21 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func (h *Handler) GetProducts(c *gin.Context) {
-	d, err := h.services.ProductI.GetAll()
-	fmt.Println(d)
-	fmt.Println(err)
+	products, err := h.services.ProductI.GetAll()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, products)
+}
+func (h *Handler) GetAllCategories(c *gin.Context) {
+	categories, err := h.services.ProductI.GetAllCategories()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, categories)
 }

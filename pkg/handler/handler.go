@@ -32,27 +32,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-in", h.signIn)
 	}
 
-	test := router.Group("/test")
+	product := router.Group("/product")
 	{
-		test.POST("/", h.test)
-		test.GET("/", h.test)
-		test.GET("/user", h.test)
-		test.GET("/mod", h.test)
-		test.GET("/admin", h.test)
+		product.GET("/", h.GetProducts)
+		product.GET("/categories", h.GetAllCategories)
 
 	}
 
-	api := router.Group("/api", h.userIdentity)
 	{
-		customer := api.Group("/customer")
-		{
-			customer.POST("/", h.CreateCustomer)
-			customer.GET("/", h.GetCustomers)
-			customer.GET("/:id", h.GetCustomers)
-			customer.PATCH("/:id", h.UpdateCustomer)
-			customer.DELETE("/:id", h.DeleteCustomer)
 
-		}
 		/*employee := api.Group("/employee")
 		{
 			employee.POST("/")
