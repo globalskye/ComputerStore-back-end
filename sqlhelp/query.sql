@@ -56,4 +56,12 @@ SELECT o.address FROM orders
                           JOIN ksa k on orders.ksa_id = k.id
                           JOIN outlet o on k.outlet_id = o.id
          GROUP BY orders.id, k.ksa_limit, k.id, o.id
-HAVING sum(orders.price) > k.ksa_limit
+HAVING sum(orders.price) > k.ksa_limit;
+
+
+SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category FROM item
+JOIN item_category ic on ic.id = item.category_id
+JOIN item_info ii on ii.id = item.info_id
+JOIN item_note inote on inote.id = item.note_id
+
+
