@@ -146,7 +146,6 @@ INSERT INTO provider(name, phone)
 VALUES ('Huawei','+37521231234'),
        ('Apple','+37541232232'),
        ('Tecno Camon','+37541232232'),
-       ('Tecno Camon','+37541232232'),
        ('POCO','+37541232232'),
        ('Xiaomi','+37541232232');
 
@@ -282,6 +281,7 @@ CREATE TABLE users(
                       username varchar(255),
                       email varchar (255),
                       password_hash varchar(255)
+
 );
 
 CREATE TABLE order_to_provider(
