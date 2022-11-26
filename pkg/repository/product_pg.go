@@ -11,6 +11,16 @@ type ProductPostgres struct {
 	db *pgxpool.Pool
 }
 
+func (p ProductPostgres) GetAllProviders() ([]model.Providers, error) {
+	query := "SELECT name FROM provider"
+	rows, err := p.db.Query(context.Background(), query)
+	if err != nil {
+		return nil, err
+	}
+	categories, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.Providers])
+	return categories, err
+}
+
 func (p ProductPostgres) GetAllCategories() ([]model.Categories, error) {
 	query := "SELECT category FROM item_category"
 	rows, err := p.db.Query(context.Background(), query)
@@ -23,10 +33,11 @@ func (p ProductPostgres) GetAllCategories() ([]model.Categories, error) {
 
 func (p ProductPostgres) GetAll() ([]model.Product, error) {
 
-	query := "SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category FROM item" +
+	query := "SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category,pr.name FROM item" +
 		" JOIN item_category ic on ic.id = item.category_id" +
 		" JOIN item_info ii on ii.id = item.info_id" +
-		" JOIN item_note inote on inote.id = item.note_id"
+		" JOIN item_note inote on inote.id = item.note_id" +
+		" JOIN provider pr on pr.id = item.provider_id"
 
 	rows, err := p.db.Query(context.Background(), query)
 	if err != nil {
@@ -34,7 +45,6 @@ func (p ProductPostgres) GetAll() ([]model.Product, error) {
 	}
 	products, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.Product])
 	return products, err
-
 }
 
 func NewProductPostgres(db *pgxpool.Pool) *ProductPostgres {

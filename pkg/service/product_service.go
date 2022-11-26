@@ -9,6 +9,11 @@ type ProductService struct {
 	repo repository.ProductI
 }
 
+func (p ProductService) GetAllProviders() ([]model.Providers, error) {
+
+	return p.repo.GetAllProviders()
+}
+
 func (p ProductService) GetAllCategories() ([]model.Categories, error) {
 	return p.repo.GetAllCategories()
 }

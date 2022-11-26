@@ -14,6 +14,7 @@ type Authorization interface {
 type ProductI interface {
 	GetAll() ([]model.Product, error)
 	GetAllCategories() ([]model.Categories, error)
+	GetAllProviders() ([]model.Providers, error)
 }
 
 type Service struct {

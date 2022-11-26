@@ -14,9 +14,13 @@ type Product struct {
 	Price       uint32 `json:"price"`
 	Garantia    uint32 `json:"garantia"`
 	Category    string `json:"category"`
+	Provider    string `json:"provider"`
 }
 type Categories struct {
 	Category string `json:"category"`
+}
+type Providers struct {
+	Provider string `json:"provider"`
 }
 
 type Customer struct {

@@ -19,3 +19,10 @@ func (h *Handler) GetAllCategories(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, categories)
 }
+func (h *Handler) GetAllProviders(c *gin.Context) {
+	providers, err := h.services.ProductI.GetAllProviders()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, providers)
+}

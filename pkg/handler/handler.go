@@ -36,6 +36,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		product.GET("/", h.GetProducts)
 		product.GET("/categories", h.GetAllCategories)
+		product.GET("/providers", h.GetAllProviders)
 
 	}
 
