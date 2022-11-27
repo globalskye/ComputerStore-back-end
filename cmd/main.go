@@ -12,9 +12,23 @@ import (
 	"os"
 )
 
+// @title Course Work Computer Store Back-end
+// @version 1.0
+// @description Api server for Computer store
+
+// @host localhost:8000
+// @BasePath /
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name
+
 func main() {
+
+	file, err := os.OpenFile("logs/log", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
+
+	logrus.SetOutput(file)
 	logrus.SetFormatter(new(logrus.JSONFormatter))
-	logrus.SetOutput(os.Stderr)
 
 	if err := configs.InitConfig(); err != nil {
 		logrus.Fatalf("error initializing config : %s", err.Error())

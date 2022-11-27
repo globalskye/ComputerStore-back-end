@@ -17,6 +17,7 @@ func (h *Handler) GetAllCategories(c *gin.Context) {
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
+
 	c.JSON(http.StatusOK, categories)
 }
 func (h *Handler) GetAllProviders(c *gin.Context) {

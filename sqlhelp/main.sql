@@ -278,11 +278,12 @@ VALUES (1,1,1),
 
 CREATE TABLE users(
                      id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                      username varchar(255),
-                      email varchar (255),
+                      username varchar(255) UNIQUE ,
+                      email varchar (255) UNIQUE ,
                       password_hash varchar(255)
 
 );
+
 
 CREATE TABLE order_to_provider(
     id int GENERATED ALWAYS AS IDENTITY UNIQUE,

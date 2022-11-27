@@ -27,6 +27,7 @@ type jwtTokenClaims struct {
 func (a *AuthService) CreateUser(user model.User) (int, error) {
 	user.Password = generateHashPassword(user.Password)
 	return a.repo.CreateUser(user)
+
 }
 func generateHashPassword(password string) string {
 	hash := sha256.New()

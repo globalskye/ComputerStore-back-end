@@ -62,6 +62,8 @@ HAVING sum(orders.price) > k.ksa_limit;
 SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category FROM item
 JOIN item_category ic on ic.id = item.category_id
 JOIN item_info ii on ii.id = item.info_id
-JOIN item_note inote on inote.id = item.note_id
+JOIN item_note inote on inote.id = item.note_id;
 
 
+SELECT EXISTS (SELECT * FROM users WHERE username = 'saaqweqeqesdasqwe' or email = 'asgagagsad@gmail.com');
+INSERT INTO users(username) VALUES ('qweqwe')

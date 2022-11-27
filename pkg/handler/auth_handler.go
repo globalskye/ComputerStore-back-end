@@ -11,6 +11,15 @@ type userInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// @Summary SignUp
+// @Tags auth
+// @Description create account
+// @ID create-account
+// @Accept  json
+// @Produce  json
+// @Param input body model.User true "account info"
+// @Success 200 {integer} integer 1
+// @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var user model.User
 
@@ -27,6 +36,15 @@ func (h *Handler) signUp(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{"id": id})
 
 }
+
+// @Summary SignIn
+// @Tags auth
+// @Description login
+// @ID login
+// @Accept  json
+// @Produce  json
+// @Success 200 {string} string "token"
+// @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var user userInput
 
