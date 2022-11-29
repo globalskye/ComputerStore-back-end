@@ -8,6 +8,11 @@ import (
 type Authorization interface {
 	CreateUser(user model.User) (int, error)
 	GetUser(username, password string) (model.User, error)
+	GetUserById(id int) ([]model.User, error)
+}
+type UserCardI interface {
+	GetAll(userId int) ([]model.UserCard, error)
+	PostProductToCard(userId int, product model.Product) error
 }
 
 type ProductI interface {
@@ -19,11 +24,13 @@ type ProductI interface {
 type Repository struct {
 	Authorization
 	ProductI
+	UserCardI
 }
 
 func NewRepository(db *pgxpool.Pool) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
 		ProductI:      NewProductPostgres(db),
+		UserCardI:     NewCardPostgres(db),
 	}
 }

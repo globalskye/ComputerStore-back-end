@@ -5,6 +5,8 @@ type User struct {
 	Username string `json:"username" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	Adress   string `json:"adress"`
+	Role     string `json:"role" `
 }
 type Product struct {
 	ID          int    `json:"id"`
@@ -15,6 +17,10 @@ type Product struct {
 	Garantia    uint32 `json:"garantia"`
 	Category    string `json:"category"`
 	Provider    string `json:"provider"`
+}
+type UserCard struct {
+	ID     int `json:"ID"`
+	ItemId int `json:"ItemId"`
 }
 type Categories struct {
 	Category string `json:"category"`

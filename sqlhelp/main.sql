@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS taxes CASCADE;
 DROP TABLE IF EXISTS order_to_provider CASCADE;
 DROP TABLE IF EXISTS item_category CASCADE;
+DROP TABLE IF EXISTS  user_card CASCADE;
 
 
 
@@ -133,7 +134,7 @@ VALUES ('Смартфон Huawei nova 10 NCO-LX1 8GB/128GB (мерцающий �
        ('Смартфон POCO M4 Pro 5G 4GB/64GB международная версия (голубой)','Android, экран 6.6" IPS (1080x2400), Mediatek Dimensity 810, ОЗУ 4 ГБ, флэш-память 64 ГБ, карты памяти, камера 50 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53','https://content2.onliner.by/catalog/device/header/37042e091e48e8cd17f8e21aa12e3a60.jpeg',12),
        ('Смартфон Xiaomi 12T Pro 8GB/256GB международная версия (серебристый)','Android, экран 6.67" AMOLED (1220x2712), Qualcomm Snapdragon 8+ Gen1, ОЗУ 8 ГБ, флэш-память 256 ГБ, камера 200 Мп, аккумулятор 5000 мАч, 2 SIM, влагозащита IP53','https://content2.onliner.by/catalog/device/header/82cc2b54054bbc706d26d0de6b30c1a6.jpeg',12),
        ('Смартфон POCO X4 Pro 5G 8GB/256GB международная версия (синий)','Android, экран 6.7" AMOLED (1080x2400), Qualcomm Snapdragon 695, ОЗУ 8 ГБ, флэш-память 256 ГБ, карты памяти, камера 108 Мп, аккумулятор 5000 мАч, 2 SIM','https://content2.onliner.by/catalog/device/header/07bc3da1787192682d44c770d7ce8af6.jpeg',12);
-
+        
 
 
 CREATE TABLE provider(
@@ -280,9 +281,22 @@ CREATE TABLE users(
                      id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                       username varchar(255) UNIQUE ,
                       email varchar (255) UNIQUE ,
-                      password_hash varchar(255)
+                      password_hash varchar(255),
+                      adress varchar(255) default 'not defined',
+                      _role varchar(255)  default 'user'
 
 );
+INSERT INTO users(username, email, password_hash, _role)
+VALUES ('admin','admin','434f555253455f574f524bd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892','admin');
+DROP TABLE user_card CASCADE ;
+CREATE TABLE user_card(
+  id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+
+  item_id int REFERENCES item(id),
+  user_id int REFERENCES users(id)
+);
+
+
 
 
 CREATE TABLE order_to_provider(

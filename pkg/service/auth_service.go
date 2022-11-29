@@ -15,6 +15,10 @@ type AuthService struct {
 	repo repository.Authorization
 }
 
+func (a *AuthService) GetUserById(id int) ([]model.User, error) {
+	return a.repo.GetUserById(id)
+}
+
 func NewAuthService(repo repository.Authorization) *AuthService {
 	return &AuthService{repo: repo}
 }

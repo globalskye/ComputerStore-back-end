@@ -4,6 +4,7 @@ import (
 	"context"
 	"course_work/pkg/model"
 	"errors"
+	"github.com/jackc/pgx/v5"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -12,11 +13,23 @@ type AuthPostgres struct {
 	db *pgxpool.Pool
 }
 
+func (a *AuthPostgres) GetUserById(id int) ([]model.User, error) {
+
+	query := "SELECT * FROM users WHERE id=$1"
+	rows, err := a.db.Query(context.Background(), query, id)
+	if err != nil {
+		return nil, err
+	}
+	user, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.User])
+
+	return user, err
+}
+
 func NewAuthPostgres(db *pgxpool.Pool) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
-type exist struct {
+type Exist struct {
 	UserExist bool `json:"aa"`
 }
 

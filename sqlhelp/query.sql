@@ -66,4 +66,6 @@ JOIN item_note inote on inote.id = item.note_id;
 
 
 SELECT EXISTS (SELECT * FROM users WHERE username = 'saaqweqeqesdasqwe' or email = 'asgagagsad@gmail.com');
-INSERT INTO users(username) VALUES ('qweqwe')
+INSERT INTO users(username) VALUES ('qweqwe');
+
+INSERT INTO user_card()

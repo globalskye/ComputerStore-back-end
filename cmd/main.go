@@ -6,6 +6,8 @@ import (
 	"course_work/pkg/handler"
 	"course_work/pkg/repository"
 	"course_work/pkg/service"
+	"crypto/sha256"
+	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -24,6 +26,11 @@ import (
 // @name
 
 func main() {
+
+	hash := sha256.New()
+	hash.Write([]byte("Alex43218228"))
+	hash1 := fmt.Sprintf("%x", hash.Sum([]byte(os.Getenv("PASSWORD_SALT"))))
+	fmt.Println(hash1)
 
 	file, err := os.OpenFile("logs/log", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
 
