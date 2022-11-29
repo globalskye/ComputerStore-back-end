@@ -13,19 +13,32 @@ func (h *Handler) userIdentity(c *gin.Context) {
 		newErrorResponse(c, http.StatusUnauthorized, "auth header left")
 		return
 	}
-
 	headerParts := strings.Split(header, " ")
 	if len(headerParts) != 2 {
 		newErrorResponse(c, http.StatusUnauthorized, "invalid auth header")
+		return
 	}
-
+	if headerParts[0] != "Bearer" {
+		newErrorResponse(c, http.StatusUnauthorized, "invalid token type, should be bearer")
+		return
+	}
 	userId, err := h.services.Authorization.ParseAccessToken(headerParts[1])
 	if err != nil {
 		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		return
 	}
-
+	user, err := h.services.Authorization.GetUserById(userId)
+	c.Set("role", user[0].Role)
 	c.Set("userId", userId)
+	c.Next()
+}
 
+func (h *Handler) adminIdentity(c *gin.Context) {
+	if role, _ := c.Get("role"); role != "admin" {
+		newErrorResponse(c, http.StatusUnauthorized, "U dont have access, u not a admin")
+		return
+	}
+	c.Next()
 }
 
 func getUserId(c *gin.Context) (int, error) {
