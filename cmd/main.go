@@ -3,6 +3,7 @@ package main
 import (
 	"course_work"
 	"course_work/configs"
+	_ "course_work/docs"
 	"course_work/pkg/handler"
 	"course_work/pkg/repository"
 	"course_work/pkg/service"
