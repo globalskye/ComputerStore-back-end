@@ -14,6 +14,12 @@ type UserCardI interface {
 	GetAll(userId int) ([]model.UserCard, error)
 	PostProductToCard(userId int, product model.Product) error
 }
+type CustomerI interface {
+	GetAll() ([]model.Customer, error)
+}
+type EmployeeI interface {
+	GetAll() ([]model.Employee, error)
+}
 
 type ProductI interface {
 	GetAll() ([]model.Product, error)
@@ -25,6 +31,8 @@ type Repository struct {
 	Authorization
 	ProductI
 	UserCardI
+	CustomerI
+	EmployeeI
 }
 
 func NewRepository(db *pgxpool.Pool) *Repository {
@@ -32,5 +40,7 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 		Authorization: NewAuthPostgres(db),
 		ProductI:      NewProductPostgres(db),
 		UserCardI:     NewCardPostgres(db),
+		CustomerI:     NewCustomerPostgres(db),
+		EmployeeI:     NewEmployeePostgres(db),
 	}
 }

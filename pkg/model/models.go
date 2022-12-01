@@ -8,6 +8,7 @@ type User struct {
 	Adress   string `json:"adress"`
 	Role     string `json:"role" `
 }
+
 type Product struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
@@ -17,6 +18,16 @@ type Product struct {
 	Garantia    uint32 `json:"garantia"`
 	Category    string `json:"category"`
 	Provider    string `json:"provider"`
+}
+type Employee struct {
+	ID        int    `json:"id"`
+	FirstName string `json:"firstname"`
+	LastName  string `json:"lastname"`
+	Login     string `json:"login"`
+	Passwd    string `json:"passwd"`
+	Phone     string `json:"phone"`
+	WorkTime  string `json:"worktime"`
+	Salary    string `json:"salary"`
 }
 type UserCard struct {
 	ID     int `json:"ID"`

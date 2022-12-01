@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func (h *Handler) GetProducts(c *gin.Context) {
+func (h *Handler) GetAllProducts(c *gin.Context) {
 	products, err := h.services.ProductI.GetAll()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
