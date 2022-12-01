@@ -1,5 +1,13 @@
-GET http://localhost:8080/product/
-
+GET https://api.trademc.org/shop.getLastPurchases?shops=140541&count=10&v=3
+Accept: application/json
 
 ###
+POST http://140541:8080/auth/sign-in
+Content-Type: application/json
 
+{
+  "username": "123",
+  "password": 140541
+}
+
+###

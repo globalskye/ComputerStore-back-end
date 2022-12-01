@@ -1,7 +1,6 @@
 package handler
 
 import (
-	_ "course_work/docs"
 	"course_work/pkg/service"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -39,7 +38,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	product := router.Group("/product")
 	{
-		product.GET("/", h.GetProducts)
+		product.GET("/", h.GetAllProducts)
 		product.GET("/categories", h.GetAllCategories)
 		product.GET("/providers", h.GetAllProviders)
 	}
@@ -55,7 +54,18 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		}
 		admin := user.Group("/admin", h.adminIdentity)
 		{
-			admin.Use()
+			customer := admin.Group("/customer")
+			{
+				customer.GET("/", h.GetAllCustomers)
+			}
+			employee := admin.Group("/employee")
+			{
+				employee.GET("/", h.GetAllEmployee)
+			}
+			products := admin.Group("/product")
+			{
+				products.GET("/", h.GetAllProducts)
+			}
 		}
 
 	}
