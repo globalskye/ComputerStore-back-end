@@ -6,6 +6,10 @@ import (
 )
 
 func (h *Handler) GetAllOrders(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"wqe": "qwe"})
+	orders, err := h.services.OrderI.GetAll()
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, orders)
 
 }

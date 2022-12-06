@@ -10,6 +10,7 @@ type EmployeeService struct {
 }
 
 func (e EmployeeService) GetAll() ([]model.Employee, error) {
+
 	return e.repo.GetAll()
 }
 

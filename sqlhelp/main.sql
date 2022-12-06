@@ -152,10 +152,10 @@ VALUES ('Huawei','+37521231234'),
 
 CREATE TABLE item(
                      id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                     note_id int REFERENCES item_note(id),
-                     info_id int REFERENCES item_info(id),
-                     provider_id int REFERENCES provider(id),
-                     category_id int REFERENCES item_category(id),
+                     note_id int REFERENCES item_note(id) ON DELETE CASCADE,
+                     info_id int REFERENCES item_info(id) ON DELETE CASCADE,
+                     provider_id int REFERENCES provider(id) ON DELETE CASCADE,
+                     category_id int REFERENCES item_category(id) ON DELETE CASCADE,
                      PRIMARY KEY (id)
 );
 INSERT INTO item(note_id, info_id, provider_id,category_id)
@@ -173,7 +173,7 @@ VALUES   (1,1,1,1),
 
 
 CREATE TABLE mainStock(
-                          item_id int REFERENCES item(id),
+                          item_id int REFERENCES item(id)ON DELETE CASCADE,
                           itemCount int
 );
 INSERT INTO mainStock(item_id, itemCount)
@@ -223,7 +223,7 @@ CREATE TABLE orders(
                        price decimal,
                        cash boolean,
                        taxes int REFERENCES taxes(id),
-                       item_id int REFERENCES item(id),
+                       item_id int REFERENCES item(id)ON DELETE CASCADE,
                        customer_id int REFERENCES customer(id),
                        employee_id int REFERENCES employee(id),
                        ksa_id int REFERENCES ksa(id),
@@ -238,7 +238,7 @@ VALUES  ('Nov 2, 2021',200,true,1,1,1,1,1),
 CREATE TABLE orderToStock(
                            id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                            date timestamp,
-                           item_id int REFERENCES item(id),
+                           item_id int REFERENCES item(id)ON DELETE CASCADE,
                            employee_id int REFERENCES employee(id)
 );
 INSERT INTO orderToStock(date, item_id, employee_id)
@@ -250,7 +250,7 @@ VALUES   ('2022-11-2',3,3),
 
 
 CREATE TABLE outletStock(
-                            item_id int REFERENCES item(id),
+                            item_id int REFERENCES item(id) ON DELETE CASCADE,
                             outlet_id int REFERENCES outlet(id),
                             itemCount int
 );
@@ -267,9 +267,9 @@ VALUES (1,1,12),
 
 CREATE TABLE receipt(
                         id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                        employee_id int REFERENCES employee(id),
-                        order_id int REFERENCES orders(id),
-                        customer_id int REFERENCES customer(id),
+                        employee_id int REFERENCES employee(id)ON DELETE CASCADE,
+                        order_id int REFERENCES orders(id)ON DELETE CASCADE,
+                        customer_id int REFERENCES customer(id)ON DELETE CASCADE,
                         PRIMARY KEY (id),
                         FOREIGN KEY (employee_id) REFERENCES employee(id)
 );
@@ -288,12 +288,11 @@ CREATE TABLE users(
 );
 INSERT INTO users(username, email, password_hash, _role)
 VALUES ('admin','admin','434f555253455f574f524bd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892','admin');
-DROP TABLE user_card CASCADE ;
+
 CREATE TABLE user_card(
   id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-
-  item_id int REFERENCES item(id),
-  user_id int REFERENCES users(id)
+  item_id int REFERENCES item(id) ON DELETE CASCADE ,
+  user_id int REFERENCES users(id) ON DELETE CASCADE
 );
 
 
@@ -302,10 +301,9 @@ CREATE TABLE user_card(
 CREATE TABLE order_to_provider(
     id int GENERATED ALWAYS AS IDENTITY UNIQUE,
     date time,
-    item int REFERENCES item(id)
-)
-
-
+    item int REFERENCES item(id) ON DELETE CASCADE
+);
+DELETE FROM item where id=1;
 
 
 

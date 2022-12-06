@@ -80,4 +80,15 @@ SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.
 		JOIN item_category ic on ic.id = item.category_id
 		 JOIN item_info ii on ii.id = item.info_id
 		 JOIN item_note inote on inote.id = item.note_id
-		 JOIN provider pr on pr.id = item.provider_id
+		 JOIN provider pr on pr.id = item.provider_id;
+
+SELECT orders.id, orders.date, orders.price, orders.cash, i.id,ii.itemname, c.id,c.firstname,e.id,e.firstname FROM orders
+JOIN employee e on e.id = orders.employee_id
+JOIN customer c on c.id = orders.customer_id
+JOIN item i on  i.id = orders.item_id
+JOIN item_info ii on ii.id = i.info_id;
+
+
+
+
+DELETE FROM USERS WHERE id=2;

@@ -9,6 +9,10 @@ type UserService struct {
 	repo repository.UserI
 }
 
+func (u UserService) DeleteById(id int) error {
+	return u.repo.DeleteById(id)
+}
+
 func (u UserService) GetAll() ([]model.User, error) {
 
 	return u.repo.GetAll()

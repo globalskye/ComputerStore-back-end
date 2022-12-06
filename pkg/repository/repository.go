@@ -28,6 +28,11 @@ type ProductI interface {
 }
 type UserI interface {
 	GetAll() ([]model.User, error)
+	DeleteById(id int) error
+}
+type OrderI interface {
+	GetAll() ([]model.Order, error)
+	DeleteById(id int) error
 }
 
 type Repository struct {
@@ -37,6 +42,7 @@ type Repository struct {
 	CustomerI
 	EmployeeI
 	UserI
+	OrderI
 }
 
 func NewRepository(db *pgxpool.Pool) *Repository {
@@ -47,5 +53,6 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 		CustomerI:     NewCustomerPostgres(db),
 		EmployeeI:     NewEmployeePostgres(db),
 		UserI:         NewUserPostgres(db),
+		OrderI:        NewOrderPostgres(db),
 	}
 }

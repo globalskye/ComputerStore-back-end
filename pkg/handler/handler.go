@@ -69,6 +69,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			users := admin.Group("/users")
 			{
 				users.GET("/", h.GetAllUsers)
+				users.DELETE("/:id", h.DeleteUserById)
 			}
 			orders := admin.Group("/orders")
 			{

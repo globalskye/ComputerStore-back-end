@@ -29,9 +29,10 @@ type EmployeeI interface {
 }
 type UserI interface {
 	GetAll() ([]model.User, error)
+	DeleteById(id int) error
 }
 type OrderI interface {
-	GetAll() ([)
+	GetAll() ([]model.Order, error)
 }
 
 type Service struct {
@@ -41,6 +42,7 @@ type Service struct {
 	CustomerI
 	EmployeeI
 	UserI
+	OrderI
 }
 
 func NewService(repo *repository.Repository) *Service {
@@ -51,5 +53,6 @@ func NewService(repo *repository.Repository) *Service {
 		CustomerI:     NewCustomerService(repo.CustomerI),
 		EmployeeI:     NewEmployeeService(repo.EmployeeI),
 		UserI:         NewUserService(repo.UserI),
+		OrderI:        NewOrderService(repo.OrderI),
 	}
 }

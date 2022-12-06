@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type User struct {
 	ID       int    `json:"id"`
 	Username string `json:"username" binding:"required"`
@@ -40,13 +42,16 @@ type Providers struct {
 	Provider string `json:"provider"`
 }
 type Order struct {
-	Id       int      `json:"id "`
-	Date     string   `json:"date"`
-	Price    int      `json:"price"`
-	Cash     bool     `json:"cash"`
-	Product  Product  `json:"product"`
-	Customer Customer `json:"customer"`
-	Employee Employee `json:"employee"`
+	Id           int       `json:"id "`
+	Date         time.Time `json:"date"`
+	Price        int       `json:"price"`
+	Cash         bool      `json:"cash"`
+	ProductId    int       `json:"product"`
+	ProductName  string    `json:"productName"`
+	CustomerId   int       `json:"customer"`
+	CustomerName string    `json:"customerName"`
+	EmployeeId   int       `json:"employee"`
+	EmployeeName string    `json:"employeeName"`
 }
 
 type Customer struct {
