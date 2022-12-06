@@ -27,6 +27,12 @@ type CustomerI interface {
 type EmployeeI interface {
 	GetAll() ([]model.Employee, error)
 }
+type UserI interface {
+	GetAll() ([]model.User, error)
+}
+type OrderI interface {
+	GetAll() ([)
+}
 
 type Service struct {
 	Authorization
@@ -34,6 +40,7 @@ type Service struct {
 	UserCardI
 	CustomerI
 	EmployeeI
+	UserI
 }
 
 func NewService(repo *repository.Repository) *Service {
@@ -43,5 +50,6 @@ func NewService(repo *repository.Repository) *Service {
 		UserCardI:     NewUserCardService(repo.UserCardI),
 		CustomerI:     NewCustomerService(repo.CustomerI),
 		EmployeeI:     NewEmployeeService(repo.EmployeeI),
+		UserI:         NewUserService(repo.UserI),
 	}
 }

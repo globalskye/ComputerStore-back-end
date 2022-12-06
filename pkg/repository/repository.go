@@ -26,6 +26,9 @@ type ProductI interface {
 	GetAllCategories() ([]model.Categories, error)
 	GetAllProviders() ([]model.Providers, error)
 }
+type UserI interface {
+	GetAll() ([]model.User, error)
+}
 
 type Repository struct {
 	Authorization
@@ -33,6 +36,7 @@ type Repository struct {
 	UserCardI
 	CustomerI
 	EmployeeI
+	UserI
 }
 
 func NewRepository(db *pgxpool.Pool) *Repository {
@@ -42,5 +46,6 @@ func NewRepository(db *pgxpool.Pool) *Repository {
 		UserCardI:     NewCardPostgres(db),
 		CustomerI:     NewCustomerPostgres(db),
 		EmployeeI:     NewEmployeePostgres(db),
+		UserI:         NewUserPostgres(db),
 	}
 }

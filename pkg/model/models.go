@@ -39,6 +39,15 @@ type Categories struct {
 type Providers struct {
 	Provider string `json:"provider"`
 }
+type Order struct {
+	Id       int      `json:"id "`
+	Date     string   `json:"date"`
+	Price    int      `json:"price"`
+	Cash     bool     `json:"cash"`
+	Product  Product  `json:"product"`
+	Customer Customer `json:"customer"`
+	Employee Employee `json:"employee"`
+}
 
 type Customer struct {
 	ID        int    `json:"id"`

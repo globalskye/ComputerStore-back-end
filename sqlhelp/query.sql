@@ -68,4 +68,16 @@ JOIN item_note inote on inote.id = item.note_id;
 SELECT EXISTS (SELECT * FROM users WHERE username = 'saaqweqeqesdasqwe' or email = 'asgagagsad@gmail.com');
 INSERT INTO users(username) VALUES ('qweqwe');
 
-INSERT INTO user_card()
+select * from item
+JOIN item_note "in" on "in".id = item.note_id
+JOIN item_category ic on ic.id = item.category_id
+JOIN item_info ii on ii.id = item.info_id;
+
+DELETE FROM item
+WHERE id = 1;
+
+SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category,pr.name FROM item
+		JOIN item_category ic on ic.id = item.category_id
+		 JOIN item_info ii on ii.id = item.info_id
+		 JOIN item_note inote on inote.id = item.note_id
+		 JOIN provider pr on pr.id = item.provider_id
