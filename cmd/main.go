@@ -4,6 +4,7 @@ import (
 	"course_work"
 	"course_work/configs"
 	"course_work/pkg/handler"
+	"course_work/pkg/model"
 	"course_work/pkg/repository"
 	"course_work/pkg/service"
 	"crypto/sha256"
@@ -26,7 +27,8 @@ import (
 // @name
 
 func main() {
-
+	var a model.UserCard
+	fmt.Println(a)
 	hash := sha256.New()
 	hash.Write([]byte("Alex43218228"))
 	hash1 := fmt.Sprintf("%x", hash.Sum([]byte(os.Getenv("PASSWORD_SALT"))))

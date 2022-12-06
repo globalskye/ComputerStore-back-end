@@ -224,15 +224,15 @@ CREATE TABLE orders(
                        cash boolean,
                        taxes int REFERENCES taxes(id),
                        item_id int REFERENCES item(id)ON DELETE CASCADE,
-                       customer_id int REFERENCES customer(id),
+                       user_id int REFERENCES users(id),
                        employee_id int REFERENCES employee(id),
                        ksa_id int REFERENCES ksa(id),
                        PRIMARY KEY (id)
 );
-INSERT INTO orders(date, price,  cash, taxes, item_id, customer_id, employee_id, ksa_id)
+INSERT INTO orders(date, price,  cash, taxes, item_id, user_id, employee_id, ksa_id)
 VALUES  ('Nov 2, 2021',200,true,1,1,1,1,1),
-        ('Mar 4, 2023',500,false,1,2,2,2,2),
-        ('Mar 3, 2023',1000,false,1,2,2,2,2);
+        ('Mar 4, 2023',500,false,1,2,1,2,2),
+        ('Mar 3, 2023',1000,false,1,2,1,2,2);
 
 
 CREATE TABLE orderToStock(
@@ -291,6 +291,7 @@ VALUES ('admin','admin','434f555253455f574f524bd82494f05d6917ba02f7aaa29689ccb44
 
 CREATE TABLE user_card(
   id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+  count int,
   item_id int REFERENCES item(id) ON DELETE CASCADE ,
   user_id int REFERENCES users(id) ON DELETE CASCADE
 );

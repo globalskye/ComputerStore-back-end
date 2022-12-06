@@ -11,6 +11,20 @@ type OrderPostgres struct {
 	db *pgxpool.Pool
 }
 
+func (o OrderPostgres) CreateOrder(cards []model.UserCard, id int) error {
+	for _, v := range cards {
+		query := "INSERT INTO orders(date, price, cash, taxes, item_id, user_id, employee_id, ksa_id) " +
+			"VALUES (now(),$1,false,1,$2,$3,1,1);"
+		_, err := o.db.Query(context.Background(), query, v.TotalPrice, v.ItemId, id)
+		if err != nil {
+			return err
+		}
+		return err
+	}
+	return nil
+
+}
+
 func (o OrderPostgres) DeleteById(id int) error {
 	//TODO implement me
 	panic("implement me")

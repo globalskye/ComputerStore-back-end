@@ -33,6 +33,7 @@ type UserI interface {
 type OrderI interface {
 	GetAll() ([]model.Order, error)
 	DeleteById(id int) error
+	CreateOrder(cards []model.UserCard, id int) error
 }
 
 type Repository struct {

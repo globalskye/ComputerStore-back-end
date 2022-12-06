@@ -52,6 +52,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			card.GET("/", h.GetUserCard)
 			card.POST("/", h.PostToUserCard)
 		}
+		order := user.Group("/order")
+		{
+			order.POST("/", h.CreateOrder)
+		}
 		admin := user.Group("/admin", h.adminIdentity)
 		{
 			customer := admin.Group("/customer")
@@ -74,6 +78,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			orders := admin.Group("/orders")
 			{
 				orders.GET("/", h.GetAllOrders)
+
 			}
 		}
 

@@ -90,5 +90,3 @@ JOIN item_info ii on ii.id = i.info_id;
 
 
 
-
-DELETE FROM USERS WHERE id=2;

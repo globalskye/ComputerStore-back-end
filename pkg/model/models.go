@@ -32,8 +32,11 @@ type Employee struct {
 	Salary    string `json:"salary"`
 }
 type UserCard struct {
-	ID     int `json:"ID"`
-	ItemId int `json:"ItemId"`
+	ID         int `json:"id"`
+	Count      int `json:"count"`
+	TotalPrice int `json:"totalPrice"`
+	ItemId     int `json:"itemId"`
+	UserId     int `json:"userId"`
 }
 type Categories struct {
 	Category string `json:"category"`
@@ -48,8 +51,8 @@ type Order struct {
 	Cash         bool      `json:"cash"`
 	ProductId    int       `json:"product"`
 	ProductName  string    `json:"productName"`
-	CustomerId   int       `json:"customer"`
-	CustomerName string    `json:"customerName"`
+	ItemId       int       `json:"ffs"`
+	ItemName     string    `json:"customerName"`
 	EmployeeId   int       `json:"employee"`
 	EmployeeName string    `json:"employeeName"`
 }

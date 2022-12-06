@@ -10,7 +10,7 @@ type UserCardService struct {
 }
 
 func (u UserCardService) GetAll(userId int) ([]model.UserCard, error) {
-	//TODO implement me
+
 	return u.repo.GetAll(userId)
 }
 

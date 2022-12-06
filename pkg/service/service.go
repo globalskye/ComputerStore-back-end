@@ -33,6 +33,7 @@ type UserI interface {
 }
 type OrderI interface {
 	GetAll() ([]model.Order, error)
+	CreateOrder(cards []model.UserCard, id int) error
 }
 
 type Service struct {
