@@ -11,18 +11,30 @@ type OrderPostgres struct {
 	db *pgxpool.Pool
 }
 
-func (o OrderPostgres) CreateOrder(cards []model.UserCard, id int) error {
-	for _, v := range cards {
-		query := "INSERT INTO orders(date, price, cash, taxes, item_id, user_id, employee_id, ksa_id) " +
-			"VALUES (now(),$1,false,1,$2,$3,1,1);"
-		_, err := o.db.Query(context.Background(), query, v.TotalPrice, v.ItemId, id)
+func (o OrderPostgres) CreateOrder(card model.UserCard) error {
+	query := "UPDATE users SET adress=$1 WHERE id=$2"
+	_, err := o.db.Query(context.Background(), query, card.UserAdress, card.UserId)
+	if err != nil {
+		return err
+	}
+	for _, v := range card.Items {
+
+		query := "UPDATE mainstock SET itemcount=itemcount-$1 WHERE item_id=$2"
+		_, err := o.db.Query(context.Background(), query, v.Count, v.Item.Id)
 		if err != nil {
 			return err
 		}
+		query = "INSERT INTO orders(date, price, cash, taxes, item_id, item_count, user_id, employee_id, ksa_id)" +
+			"VALUES(now(),$1,false,1,$2,$3,$4,1,1)"
+		_, err = o.db.Query(context.Background(), query, v.TotalPrice, v.Item.Id, v.Count, card.UserId)
+		if err != nil {
+			return err
+		}
+
 		return err
 	}
-	return nil
 
+	return nil
 }
 
 func (o OrderPostgres) DeleteById(id int) error {

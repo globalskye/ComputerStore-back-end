@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS taxes CASCADE;
 DROP TABLE IF EXISTS order_to_provider CASCADE;
 DROP TABLE IF EXISTS item_category CASCADE;
 DROP TABLE IF EXISTS  user_card CASCADE;
+DROP TABLE IF EXISTS orders CASCADE;
 
 
 
@@ -174,10 +175,16 @@ VALUES   (1,1,1,1),
 
 CREATE TABLE mainStock(
                           item_id int REFERENCES item(id)ON DELETE CASCADE,
-                          itemCount int
+                          itemCount int CHECK(itemCount>0)
 );
 INSERT INTO mainStock(item_id, itemCount)
-VALUES
+VALUES(1,55),
+      (2,55),
+      (3,55),
+      (4,55),
+      (5,55),
+      (6,55),
+      (7,55),
        (8,55),
        (9,11),
        (10,12);
@@ -217,6 +224,18 @@ VALUES (1,500),
        (3,655),
        (4,1000),
        (5,980);
+CREATE TABLE users(
+                      id int GENERATED ALWAYS AS IDENTITY UNIQUE,
+                      username varchar(255) UNIQUE ,
+                      email varchar (255) UNIQUE ,
+                      password_hash varchar(255),
+                      adress varchar(255) default 'not defined',
+                      _role varchar(255)  default 'user'
+
+);
+INSERT INTO users(username, email, password_hash, _role)
+VALUES ('admin','admin','434f555253455f574f524bd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892','admin');
+
 CREATE TABLE orders(
                        id int GENERATED ALWAYS AS IDENTITY UNIQUE,
                        date date,
@@ -224,15 +243,16 @@ CREATE TABLE orders(
                        cash boolean,
                        taxes int REFERENCES taxes(id),
                        item_id int REFERENCES item(id)ON DELETE CASCADE,
+                       item_count int,
                        user_id int REFERENCES users(id),
                        employee_id int REFERENCES employee(id),
                        ksa_id int REFERENCES ksa(id),
                        PRIMARY KEY (id)
 );
-INSERT INTO orders(date, price,  cash, taxes, item_id, user_id, employee_id, ksa_id)
-VALUES  ('Nov 2, 2021',200,true,1,1,1,1,1),
-        ('Mar 4, 2023',500,false,1,2,1,2,2),
-        ('Mar 3, 2023',1000,false,1,2,1,2,2);
+INSERT INTO orders(date, price,  cash, taxes, item_id,item_count, user_id, employee_id, ksa_id)
+VALUES  ('Nov 2, 2021',200,true,1,1,20,1,1,1),
+        ('Mar 4, 2023',500,false,1,2,20,1,2,2),
+        ('Mar 3, 2023',1000,false,1,2,20,1,2,2);
 
 
 CREATE TABLE orderToStock(
@@ -254,13 +274,7 @@ CREATE TABLE outletStock(
                             outlet_id int REFERENCES outlet(id),
                             itemCount int
 );
-INSERT INTO outletStock(item_id, outlet_id, itemCount)
-VALUES (1,1,12),
-       (2,2,11),
-       (3,3,43),
-       (4,4,23),
-       (5,5,22),
-       (7,5,22);
+
 
 
 
@@ -277,17 +291,6 @@ INSERT INTO receipt(employee_id, order_id,customer_id)
 VALUES (1,1,1),
        (2,2,2);
 
-CREATE TABLE users(
-                     id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                      username varchar(255) UNIQUE ,
-                      email varchar (255) UNIQUE ,
-                      password_hash varchar(255),
-                      adress varchar(255) default 'not defined',
-                      _role varchar(255)  default 'user'
-
-);
-INSERT INTO users(username, email, password_hash, _role)
-VALUES ('admin','admin','434f555253455f574f524bd82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892','admin');
 
 CREATE TABLE user_card(
   id int GENERATED ALWAYS AS IDENTITY UNIQUE,
@@ -304,9 +307,6 @@ CREATE TABLE order_to_provider(
     date time,
     item int REFERENCES item(id) ON DELETE CASCADE
 );
-DELETE FROM item where id=1;
-
-
 
 
 

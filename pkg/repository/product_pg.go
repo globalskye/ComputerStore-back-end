@@ -31,19 +31,15 @@ func (p ProductPostgres) GetAllCategories() ([]model.Categories, error) {
 	return categories, err
 }
 
-func (p ProductPostgres) GetAll() ([]model.Product, error) {
+func (p ProductPostgres) GetAll() ([]model.Stock, error) {
 
-	query := "SELECT item.id,ii.itemname,ii.image,ii.iteminfo,inote.firstprice,ii.garantia,ic.category,pr.name FROM item" +
-		" JOIN item_category ic on ic.id = item.category_id" +
-		" JOIN item_info ii on ii.id = item.info_id" +
-		" JOIN item_note inote on inote.id = item.note_id" +
-		" JOIN provider pr on pr.id = item.provider_id"
+	query := "\nSELECT itemCount,i.id,ii.itemname,ii.image,ii.iteminfo,inote.firstPrice,ii.garantia,ic.category,p.name FROM mainStock\nJOIN item i on i.id = mainStock.item_id\nJOIN item_info ii on ii.id = i.info_id\nJOIN item_category ic on ic.id = i.category_id\nJOIN item_note inote on inote.id = i.note_id\nJOIN provider p on p.id = i.provider_id\n"
 
 	rows, err := p.db.Query(context.Background(), query)
 	if err != nil {
 		return nil, err
 	}
-	products, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.Product])
+	products, err := pgx.CollectRows(rows, pgx.RowToStructByPos[model.Stock])
 	return products, err
 }
 

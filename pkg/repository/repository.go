@@ -22,7 +22,7 @@ type EmployeeI interface {
 }
 
 type ProductI interface {
-	GetAll() ([]model.Product, error)
+	GetAll() ([]model.Stock, error)
 	GetAllCategories() ([]model.Categories, error)
 	GetAllProviders() ([]model.Providers, error)
 }
@@ -33,7 +33,7 @@ type UserI interface {
 type OrderI interface {
 	GetAll() ([]model.Order, error)
 	DeleteById(id int) error
-	CreateOrder(cards []model.UserCard, id int) error
+	CreateOrder(card model.UserCard) error
 }
 
 type Repository struct {

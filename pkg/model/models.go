@@ -21,6 +21,17 @@ type Product struct {
 	Category    string `json:"category"`
 	Provider    string `json:"provider"`
 }
+type Stock struct {
+	Count       int    `json:"count"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Image       string `json:"image"`
+	Description string `json:"description"`
+	Price       uint32 `json:"price"`
+	Garantia    uint32 `json:"garantia"`
+	Category    string `json:"category"`
+	Provider    string `json:"provider"`
+}
 type Employee struct {
 	ID        int    `json:"id"`
 	FirstName string `json:"firstname"`
@@ -31,12 +42,35 @@ type Employee struct {
 	WorkTime  string `json:"worktime"`
 	Salary    string `json:"salary"`
 }
+type _ struct {
+	ID     int                 `json:"id"`
+	UserId int                 `json:"userId"`
+	Items  []UserCardItemCount `json:"items"`
+}
 type UserCard struct {
-	ID         int `json:"id"`
-	Count      int `json:"count"`
-	TotalPrice int `json:"totalPrice"`
-	ItemId     int `json:"itemId"`
-	UserId     int `json:"userId"`
+	Id         int    `json:"id"`
+	UserId     int    `json:"userId"`
+	UserAdress string `json:"userAdress"`
+	Items      []struct {
+		Count      int `json:"count"`
+		TotalPrice int `json:"totalPrice"`
+		Item       struct {
+			Id          int    `json:"id"`
+			Name        string `json:"name"`
+			Image       string `json:"image"`
+			Description string `json:"description"`
+			Price       int    `json:"price"`
+			Garantia    int    `json:"garantia"`
+			Category    string `json:"category"`
+			Provider    string `json:"provider"`
+		} `json:"item"`
+	} `json:"items"`
+}
+
+type UserCardItemCount struct {
+	Count      uint32  `json:"count"`
+	TotalPrice uint32  `json:"totalPrice"`
+	Item       Product `jso	n:"item"`
 }
 type Categories struct {
 	Category string `json:"category"`

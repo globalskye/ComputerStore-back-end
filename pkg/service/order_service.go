@@ -3,14 +3,21 @@ package service
 import (
 	"course_work/pkg/model"
 	"course_work/pkg/repository"
+	"fmt"
 )
 
 type OrderService struct {
 	repo repository.OrderI
 }
 
-func (o OrderService) CreateOrder(cards []model.UserCard, id int) error {
-	return o.repo.CreateOrder(cards, id)
+func (o OrderService) CreateOrder(card model.UserCard) error {
+	newCard := card
+
+	for i, v := range card.Items {
+		newCard.Items[i].TotalPrice = v.Count * v.Item.Price
+	}
+	fmt.Println(newCard)
+	return o.repo.CreateOrder(newCard)
 }
 
 func (o OrderService) GetAll() ([]model.Order, error) {

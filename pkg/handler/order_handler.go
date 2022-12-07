@@ -2,6 +2,7 @@ package handler
 
 import (
 	"course_work/pkg/model"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -18,11 +19,14 @@ func (h *Handler) CreateOrder(c *gin.Context) {
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
-	var cards []model.UserCard
-	if err := c.BindJSON(cards); err != nil {
+	var cards model.UserCard
+	if err := c.BindJSON(&cards); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 	}
-	if err := h.services.OrderI.CreateOrder(cards, id); err != nil {
+	fmt.Println(cards)
+
+	cards.UserId = id
+	if err := h.services.OrderI.CreateOrder(cards); err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "ok"})

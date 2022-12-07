@@ -18,7 +18,7 @@ func (p ProductService) GetAllCategories() ([]model.Categories, error) {
 	return p.repo.GetAllCategories()
 }
 
-func (p ProductService) GetAll() ([]model.Product, error) {
+func (p ProductService) GetAll() ([]model.Stock, error) {
 	return p.repo.GetAll()
 
 }
