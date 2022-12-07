@@ -3,7 +3,6 @@ package service
 import (
 	"course_work/pkg/model"
 	"course_work/pkg/repository"
-	"fmt"
 )
 
 type OrderService struct {
@@ -16,7 +15,7 @@ func (o OrderService) CreateOrder(card model.UserCard) error {
 	for i, v := range card.Items {
 		newCard.Items[i].TotalPrice = v.Count * v.Item.Price
 	}
-	fmt.Println(newCard)
+
 	return o.repo.CreateOrder(newCard)
 }
 

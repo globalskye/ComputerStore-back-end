@@ -4,10 +4,8 @@ import (
 	"course_work"
 	"course_work/configs"
 	"course_work/pkg/handler"
-	"course_work/pkg/model"
 	"course_work/pkg/repository"
 	"course_work/pkg/service"
-	"crypto/sha256"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
@@ -27,12 +25,6 @@ import (
 // @name
 
 func main() {
-	var a model.UserCard
-	fmt.Println(a)
-	hash := sha256.New()
-	hash.Write([]byte("Alex43218228"))
-	hash1 := fmt.Sprintf("%x", hash.Sum([]byte(os.Getenv("PASSWORD_SALT"))))
-	fmt.Println(hash1)
 
 	file, err := os.OpenFile("logs/log", os.O_RDWR|os.O_APPEND|os.O_CREATE, 0777)
 
@@ -56,9 +48,9 @@ func main() {
 	handlers := handler.NewHandler(services) // http request
 
 	srv := new(course_work.Server)
+	fmt.Println("Server working on @localhost:%s", viper.GetString("port"))
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("error to running http server : %s", err)
 	}
-	fmt.Println("Server working on @localhost:%s", viper.GetString("port"))
 
 }

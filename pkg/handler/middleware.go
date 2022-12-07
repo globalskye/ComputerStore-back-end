@@ -28,9 +28,16 @@ func (h *Handler) userIdentity(c *gin.Context) {
 		return
 	}
 	user, err := h.services.Authorization.GetUserById(userId)
-	c.Set("role", user[0].Role)
-	c.Set("userId", userId)
-	c.Next()
+	if len(user) > 0 {
+		c.Set("role", user[0].Role)
+		c.Set("userId", userId)
+		c.Next()
+	} else {
+		newErrorResponse(c, http.StatusUnauthorized, errors.New("Token exists, but user in database not found").Error())
+		return
+	}
+
+	return
 }
 
 func (h *Handler) adminIdentity(c *gin.Context) {
