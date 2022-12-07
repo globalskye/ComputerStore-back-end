@@ -11,9 +11,18 @@ type ProductPostgres struct {
 	db *pgxpool.Pool
 }
 
-func (p ProductPostgres) PostProductToStock(product model.Stock) error {
-	query := "DELETE FROM item WHERE id=$1"
-	_, err := p.db.Query(context.Background(), query)
+func (p ProductPostgres) PostProductToStock(product model.ProductToAdd) error {
+	query := "INSERT INTO item_note(date_of_delivery, firstPrice, firstTax)" +
+		"VALUES (now(),$1,15) RETURNING id;"
+	var itemNoteId int
+	_ = p.db.QueryRow(context.Background(), query, product.Price).Scan(&itemNoteId)
+	query = "INSERT INTO item_info(itemname, iteminfo, image, garantia)" +
+		"VALUES ($1,$2,$3,$4) RETURNING id;"
+	var itemInfoId int
+	_ = p.db.QueryRow(context.Background(), query, product.Name, product.Description, product.Image, product.Garantia).Scan(&itemInfoId)
+	query = "INSERT INTO item(note_id, info_id, provider_id, category_id)" +
+		"VALUES ($1,$2,$3,$4)"
+	_, err := p.db.Query(context.Background(), query, itemNoteId, itemInfoId, product.ProviderId, product.CategoryId)
 
 	return err
 }

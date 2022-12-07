@@ -21,6 +21,19 @@ type Product struct {
 	Category    string `json:"category"`
 	Provider    string `json:"provider"`
 }
+type ProductToAdd struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Image       string `json:"image"`
+	Description string `json:"description"`
+	Price       uint32 `json:"price"`
+	Garantia    uint32 `json:"garantia"`
+	CategoryId  uint32 `json:"categoryId"`
+	Category    string `json:"category"`
+	ProviderId  uint32 `json:"providerId"`
+	Provider    string `json:"provider"`
+}
+
 type Stock struct {
 	Count       int    `json:"count"`
 	ID          int    `json:"id"`
@@ -75,6 +88,10 @@ type UserCardItemCount struct {
 type Categories struct {
 	Id       int    `json:"id"`
 	Category string `json:"category"`
+}
+type DashBoardInfo struct {
+	BestUserName        User `json:"bestUserName"`
+	BestUserOrdersCount int  `json:"bestUserOrdersCount"`
 }
 type Providers struct {
 	Id       int    `json:"id"`

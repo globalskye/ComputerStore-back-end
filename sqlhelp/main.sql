@@ -301,7 +301,6 @@ SELECT orders.id, date,price,cash,item.id, item_info.itemname,users.id,users.use
     JOIN users on orders.user_id = users.id
 
 
-INSERT INTO
 
 
 

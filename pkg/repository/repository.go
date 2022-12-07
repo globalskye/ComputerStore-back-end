@@ -26,7 +26,7 @@ type ProductI interface {
 	GetAllCategories() ([]model.Categories, error)
 	GetAllProviders() ([]model.Providers, error)
 	DeleteById(id int) error
-	PostProductToStock(product model.Stock) error
+	PostProductToStock(product model.ProductToAdd) error
 }
 type UserI interface {
 	GetAll() ([]model.User, error)

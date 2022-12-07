@@ -9,7 +9,7 @@ type ProductService struct {
 	repo repository.ProductI
 }
 
-func (p ProductService) PostProductToStock(product model.Stock) error {
+func (p ProductService) PostProductToStock(product model.ProductToAdd) error {
 
 	return p.repo.PostProductToStock(product)
 }

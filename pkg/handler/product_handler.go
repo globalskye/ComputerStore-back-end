@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"course_work/pkg/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -36,6 +37,16 @@ func (h *Handler) DeleteProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"messsage": "ok"})
 }
 func (h *Handler) PostToProducts(c *gin.Context) {
+	var product model.ProductToAdd
+	if err := c.BindJSON(product); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	if err := h.services.ProductI.PostProductToStock(product); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "ok"})
 
 }
 
