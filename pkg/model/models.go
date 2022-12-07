@@ -84,9 +84,10 @@ type Order struct {
 	Price        int       `json:"price"`
 	Cash         bool      `json:"cash"`
 	ProductId    int       `json:"product"`
+	ProductCount int       `json:"productCount"`
 	ProductName  string    `json:"productName"`
-	ItemId       int       `json:"ffs"`
-	ItemName     string    `json:"customerName"`
+	UserId       int       `json:"userId"`
+	UserName     string    `json:"userName"`
 	EmployeeId   int       `json:"employee"`
 	EmployeeName string    `json:"employeeName"`
 }

@@ -249,10 +249,7 @@ CREATE TABLE orders(
                        ksa_id int REFERENCES ksa(id),
                        PRIMARY KEY (id)
 );
-INSERT INTO orders(date, price,  cash, taxes, item_id,item_count, user_id, employee_id, ksa_id)
-VALUES  ('Nov 2, 2021',200,true,1,1,20,1,1,1),
-        ('Mar 4, 2023',500,false,1,2,20,1,2,2),
-        ('Mar 3, 2023',1000,false,1,2,20,1,2,2);
+
 
 
 CREATE TABLE orderToStock(
@@ -279,17 +276,7 @@ CREATE TABLE outletStock(
 
 
 
-CREATE TABLE receipt(
-                        id int GENERATED ALWAYS AS IDENTITY UNIQUE,
-                        employee_id int REFERENCES employee(id)ON DELETE CASCADE,
-                        order_id int REFERENCES orders(id)ON DELETE CASCADE,
-                        customer_id int REFERENCES customer(id)ON DELETE CASCADE,
-                        PRIMARY KEY (id),
-                        FOREIGN KEY (employee_id) REFERENCES employee(id)
-);
-INSERT INTO receipt(employee_id, order_id,customer_id)
-VALUES (1,1,1),
-       (2,2,2);
+
 
 
 CREATE TABLE user_card(
@@ -307,6 +294,11 @@ CREATE TABLE order_to_provider(
     date time,
     item int REFERENCES item(id) ON DELETE CASCADE
 );
+SELECT orders.id, date,price,cash,item.id, item_info.itemname,users.id,users.username,e.id,e.firstName FROM orders
+    JOIN employee e on e.id = orders.employee_id
+    JOIN item on orders.item_id = item.id
+    JOIN item_info on item.info_id = item_info.id
+    JOIN users on orders.user_id = users.id
 
 
 

@@ -20,6 +20,11 @@ func (h *Handler) GetAllCategories(c *gin.Context) {
 
 	c.JSON(http.StatusOK, categories)
 }
+
+func (h *Handler) DeleteProduct(c *gin.Context) {
+
+}
+
 func (h *Handler) GetAllProviders(c *gin.Context) {
 	providers, err := h.services.ProductI.GetAllProviders()
 	if err != nil {

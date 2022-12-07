@@ -43,7 +43,7 @@ func (o OrderPostgres) DeleteById(id int) error {
 }
 
 func (o OrderPostgres) GetAll() ([]model.Order, error) {
-	query := "SELECT orders.id, orders.date, orders.price, orders.cash, i.id,ii.itemname, c.id,c.firstname,e.id,e.firstname FROM orders\nJOIN employee e on e.id = orders.employee_id\nJOIN customer c on c.id = orders.customer_id\nJOIN item i on  i.id = orders.item_id\nJOIN item_info ii on ii.id = i.info_id"
+	query := "SELECT orders.id, date,price,cash,item.id,item_count, item_info.itemname,users.id,users.username,e.id,e.firstName FROM orders\n    JOIN employee e on e.id = orders.employee_id\n    JOIN item on orders.item_id = item.id\n    JOIN item_info on item.info_id = item_info.id\n    JOIN users on orders.user_id = users.id\n"
 	rows, err := o.db.Query(context.Background(), query)
 	if err != nil {
 		return nil, err
