@@ -69,17 +69,23 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			products := admin.Group("/product")
 			{
 				products.GET("/", h.GetAllProducts)
-				products.DELETE("/", h.DeleteProduct)
+				products.DELETE("/:id", h.DeleteProduct)
+				products.POST("/", h.PostToProducts)
 			}
 			users := admin.Group("/users")
 			{
 				users.GET("/", h.GetAllUsers)
 				users.DELETE("/:id", h.DeleteUserById)
+
 			}
 			orders := admin.Group("/orders")
 			{
 				orders.GET("/", h.GetAllOrders)
 
+			}
+			dashboard := admin.Group("/dashboard")
+			{
+				dashboard.GET("/", h.GetDashBoardInfo)
 			}
 		}
 

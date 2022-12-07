@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func (h *Handler) GetAllProducts(c *gin.Context) {
@@ -22,6 +23,19 @@ func (h *Handler) GetAllCategories(c *gin.Context) {
 }
 
 func (h *Handler) DeleteProduct(c *gin.Context) {
+	itemId := c.Param("id")
+	id, err := strconv.Atoi(itemId)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	if err := h.services.ProductI.DeleteById(id); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"messsage": "ok"})
+}
+func (h *Handler) PostToProducts(c *gin.Context) {
 
 }
 

@@ -11,8 +11,22 @@ type ProductPostgres struct {
 	db *pgxpool.Pool
 }
 
+func (p ProductPostgres) PostProductToStock(product model.Stock) error {
+	query := "DELETE FROM item WHERE id=$1"
+	_, err := p.db.Query(context.Background(), query)
+
+	return err
+}
+
+func (p ProductPostgres) DeleteById(id int) error {
+	query := "DELETE FROM item WHERE id=$1"
+	_, err := p.db.Query(context.Background(), query, id)
+
+	return err
+}
+
 func (p ProductPostgres) GetAllProviders() ([]model.Providers, error) {
-	query := "SELECT name FROM provider"
+	query := "SELECT id,name FROM provider"
 	rows, err := p.db.Query(context.Background(), query)
 	if err != nil {
 		return nil, err
@@ -22,7 +36,7 @@ func (p ProductPostgres) GetAllProviders() ([]model.Providers, error) {
 }
 
 func (p ProductPostgres) GetAllCategories() ([]model.Categories, error) {
-	query := "SELECT category FROM item_category"
+	query := "SELECT * FROM item_category"
 	rows, err := p.db.Query(context.Background(), query)
 	if err != nil {
 		return nil, err

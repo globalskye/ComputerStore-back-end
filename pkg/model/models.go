@@ -73,9 +73,11 @@ type UserCardItemCount struct {
 	Item       Product `jso	n:"item"`
 }
 type Categories struct {
+	Id       int    `json:"id"`
 	Category string `json:"category"`
 }
 type Providers struct {
+	Id       int    `json:"id"`
 	Provider string `json:"provider"`
 }
 type Order struct {
