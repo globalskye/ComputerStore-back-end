@@ -14,7 +14,7 @@ type CardPostgres struct {
 
 func (c CardPostgres) GetAll(userId int) ([]model.UserCard, error) {
 	query := "SELECT * FROM user_card WHERE user_id=$1"
-	rows, err := c.db.Query(context.Background(), query, userId)
+	rows, err := c.db.Query(context.TODO(), query, userId)
 	if err != nil {
 		return nil, err
 	}
@@ -24,7 +24,7 @@ func (c CardPostgres) GetAll(userId int) ([]model.UserCard, error) {
 
 func (c CardPostgres) PostProductToCard(userId int, product model.Product) error {
 	query := "INSERT INTO user_card(user_id, item_id) VALUES($1,$2)"
-	_, err := c.db.Query(context.Background(), query, userId, product.ID)
+	_, err := c.db.Query(context.TODO(), query, userId, product.ID)
 	if err != nil {
 		return err
 	}

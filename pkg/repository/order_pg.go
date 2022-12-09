@@ -14,7 +14,7 @@ type OrderPostgres struct {
 func (o OrderPostgres) CreateOrder(card model.UserCard) error {
 
 	query := "UPDATE users SET adress=$1 WHERE id=$2"
-	_, err := o.db.Query(context.Background(), query, card.UserAdress, card.UserId)
+	_, err := o.db.Exec(context.Background(), query, card.UserAdress, card.UserId)
 	if err != nil {
 		return err
 	}
@@ -22,13 +22,15 @@ func (o OrderPostgres) CreateOrder(card model.UserCard) error {
 	for _, v := range card.Items {
 
 		query := "UPDATE mainstock SET itemcount=itemcount-$1 WHERE item_id=$2"
-		_, err := o.db.Query(context.Background(), query, v.Quantity, v.Id)
+		_, err := o.db.Exec(context.TODO(), query, v.Quantity, v.Id)
+
 		if err != nil {
 			return err
 		}
 		query = "INSERT INTO orders(date, price, cash, taxes, item_id, item_count, user_id, employee_id, ksa_id)" +
 			"VALUES(now(),$1,false,1,$2,$3,$4,1,1)"
-		_, err = o.db.Query(context.Background(), query, v.TotalPrice, v.Id, v.Quantity, card.UserId)
+		_, err = o.db.Exec(context.TODO(), query, v.TotalPrice, v.Id, v.Quantity, card.UserId)
+
 		if err != nil {
 			return err
 		}
@@ -44,7 +46,7 @@ func (o OrderPostgres) DeleteById(id int) error {
 
 func (o OrderPostgres) GetAll() ([]model.Order, error) {
 	query := "SELECT orders.id, date,price,cash,item.id,item_count, item_info.itemname,users.id,users.username,e.id,e.firstName FROM orders\n    JOIN employee e on e.id = orders.employee_id\n    JOIN item on orders.item_id = item.id\n    JOIN item_info on item.info_id = item_info.id\n    JOIN users on orders.user_id = users.id\n"
-	rows, err := o.db.Query(context.Background(), query)
+	rows, err := o.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}

@@ -8,12 +8,12 @@ import (
 
 func NewPostgresDb() (*pgxpool.Pool, error) {
 
-	db, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	db, err := pgxpool.New(context.TODO(), os.Getenv("DATABASE_URL"))
 	if err != nil {
 		return nil, err
 	}
 
-	err = db.Ping(context.Background())
+	err = db.Ping(context.TODO())
 	if err != nil {
 		return nil, err
 	}

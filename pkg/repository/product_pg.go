@@ -15,28 +15,34 @@ func (p ProductPostgres) PostProductToStock(product model.ProductToAdd) error {
 	query := "INSERT INTO item_note(date_of_delivery, firstPrice, firstTax)" +
 		"VALUES (now(),$1,15) RETURNING id;"
 	var itemNoteId int
-	_ = p.db.QueryRow(context.Background(), query, product.Price).Scan(&itemNoteId)
+	rows, err := p.db.Query(context.TODO(), query, product.Price)
+	if err := rows.Scan(&itemNoteId); err != nil {
+		return err
+	}
 	query = "INSERT INTO item_info(itemname, iteminfo, image, garantia)" +
 		"VALUES ($1,$2,$3,$4) RETURNING id;"
 	var itemInfoId int
-	_ = p.db.QueryRow(context.Background(), query, product.Name, product.Description, product.Image, product.Garantia).Scan(&itemInfoId)
+	rows, err = p.db.Query(context.TODO(), query, product.Name, product.Description, product.Image, product.Garantia)
+	if err := rows.Scan(&itemInfoId); err != nil {
+		return err
+	}
 	query = "INSERT INTO item(note_id, info_id, provider_id, category_id)" +
 		"VALUES ($1,$2,$3,$4)"
-	_, err := p.db.Query(context.Background(), query, itemNoteId, itemInfoId, product.ProviderId, product.CategoryId)
+	_, err = p.db.Query(context.TODO(), query, itemNoteId, itemInfoId, product.ProviderId, product.CategoryId)
 
 	return err
 }
 
 func (p ProductPostgres) DeleteById(id int) error {
 	query := "DELETE FROM item WHERE id=$1"
-	_, err := p.db.Query(context.Background(), query, id)
+	_, err := p.db.Query(context.TODO(), query, id)
 
 	return err
 }
 
 func (p ProductPostgres) GetAllProviders() ([]model.Providers, error) {
 	query := "SELECT id,name FROM provider"
-	rows, err := p.db.Query(context.Background(), query)
+	rows, err := p.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +52,7 @@ func (p ProductPostgres) GetAllProviders() ([]model.Providers, error) {
 
 func (p ProductPostgres) GetAllCategories() ([]model.Categories, error) {
 	query := "SELECT * FROM item_category"
-	rows, err := p.db.Query(context.Background(), query)
+	rows, err := p.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +64,7 @@ func (p ProductPostgres) GetAll() ([]model.Stock, error) {
 
 	query := "\nSELECT itemCount,i.id,ii.itemname,ii.image,ii.iteminfo,inote.firstPrice,ii.garantia,ic.category,p.name FROM mainStock\nJOIN item i on i.id = mainStock.item_id\nJOIN item_info ii on ii.id = i.info_id\nJOIN item_category ic on ic.id = i.category_id\nJOIN item_note inote on inote.id = i.note_id\nJOIN provider p on p.id = i.provider_id\n"
 
-	rows, err := p.db.Query(context.Background(), query)
+	rows, err := p.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}

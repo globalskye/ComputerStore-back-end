@@ -13,7 +13,7 @@ type EmployeePostgres struct {
 
 func (e EmployeePostgres) GetAll() ([]model.Employee, error) {
 	query := "SELECT * FROM employee"
-	rows, err := e.db.Query(context.Background(), query)
+	rows, err := e.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}

@@ -13,13 +13,13 @@ type UserPostgres struct {
 
 func (u UserPostgres) DeleteById(id int) error {
 	query := "DELETE FROM users WHERE id=$1"
-	_, err := u.db.Query(context.Background(), query, id)
+	_, err := u.db.Query(context.TODO(), query, id)
 	return err
 }
 
 func (u UserPostgres) GetAll() ([]model.User, error) {
 	query := "SELECT * FROM users"
-	rows, err := u.db.Query(context.Background(), query)
+	rows, err := u.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}

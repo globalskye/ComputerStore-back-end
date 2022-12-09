@@ -13,7 +13,7 @@ type CustomerPostgres struct {
 
 func (c CustomerPostgres) GetAll() ([]model.Customer, error) {
 	query := "SELECT * FROM customer"
-	rows, err := c.db.Query(context.Background(), query)
+	rows, err := c.db.Query(context.TODO(), query)
 	if err != nil {
 		return nil, err
 	}
