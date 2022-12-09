@@ -20,18 +20,16 @@ func (o OrderPostgres) CreateOrder(card model.UserCard) error {
 	for _, v := range card.Items {
 
 		query := "UPDATE mainstock SET itemcount=itemcount-$1 WHERE item_id=$2"
-		_, err := o.db.Query(context.Background(), query, v.Count, v.Item.Id)
+		_, err := o.db.Query(context.Background(), query, v.Quantity, v.Id)
 		if err != nil {
 			return err
 		}
 		query = "INSERT INTO orders(date, price, cash, taxes, item_id, item_count, user_id, employee_id, ksa_id)" +
 			"VALUES(now(),$1,false,1,$2,$3,$4,1,1)"
-		_, err = o.db.Query(context.Background(), query, v.TotalPrice, v.Item.Id, v.Count, card.UserId)
+		_, err = o.db.Query(context.Background(), query, v.TotalPrice, v.Id, v.Quantity, card.UserId)
 		if err != nil {
 			return err
 		}
-
-		return err
 	}
 
 	return nil

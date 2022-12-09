@@ -18,7 +18,9 @@ type Product struct {
 	Description string `json:"description"`
 	Price       uint32 `json:"price"`
 	Garantia    uint32 `json:"garantia"`
+	CategoryId  uint32 `json:"categoryId"`
 	Category    string `json:"category"`
+	ProviderId  uint32 `json:"providerId"`
 	Provider    string `json:"provider"`
 }
 type ProductToAdd struct {
@@ -65,18 +67,16 @@ type UserCard struct {
 	UserId     int    `json:"userId"`
 	UserAdress string `json:"userAdress"`
 	Items      []struct {
-		Count      int `json:"count"`
-		TotalPrice int `json:"totalPrice"`
-		Item       struct {
-			Id          int    `json:"id"`
-			Name        string `json:"name"`
-			Image       string `json:"image"`
-			Description string `json:"description"`
-			Price       int    `json:"price"`
-			Garantia    int    `json:"garantia"`
-			Category    string `json:"category"`
-			Provider    string `json:"provider"`
-		} `json:"item"`
+		Quantity    int    `json:"quantity"`
+		TotalPrice  int    `json:"totalPrice"`
+		Id          int    `json:"id"`
+		Name        string `json:"name"`
+		Image       string `json:"image"`
+		Description string `json:"description"`
+		Price       int    `json:"price"`
+		Garantia    int    `json:"garantia"`
+		Category    string `json:"category"`
+		Provider    string `json:"provider"`
 	} `json:"items"`
 }
 

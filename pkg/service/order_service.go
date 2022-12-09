@@ -13,7 +13,7 @@ func (o OrderService) CreateOrder(card model.UserCard) error {
 	newCard := card
 
 	for i, v := range card.Items {
-		newCard.Items[i].TotalPrice = v.Count * v.Item.Price
+		newCard.Items[i].TotalPrice = v.Quantity * v.Price
 	}
 
 	return o.repo.CreateOrder(newCard)
