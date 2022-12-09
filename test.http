@@ -1,4 +1,4 @@
-GET http://localhost:8080/user/admin/users
+GET https://rage.hostfun.ru/players.php
 
 
 

@@ -3,6 +3,7 @@ package service
 import (
 	"course_work/pkg/model"
 	"course_work/pkg/repository"
+	"errors"
 )
 
 type OrderService struct {
@@ -10,6 +11,9 @@ type OrderService struct {
 }
 
 func (o OrderService) CreateOrder(card model.UserCard) error {
+	if len(card.Items) < 1 {
+		return errors.New("Cannot make query with zero items")
+	}
 	newCard := card
 
 	for i, v := range card.Items {

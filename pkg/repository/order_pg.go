@@ -12,11 +12,13 @@ type OrderPostgres struct {
 }
 
 func (o OrderPostgres) CreateOrder(card model.UserCard) error {
+
 	query := "UPDATE users SET adress=$1 WHERE id=$2"
 	_, err := o.db.Query(context.Background(), query, card.UserAdress, card.UserId)
 	if err != nil {
 		return err
 	}
+
 	for _, v := range card.Items {
 
 		query := "UPDATE mainstock SET itemcount=itemcount-$1 WHERE item_id=$2"

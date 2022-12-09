@@ -11,16 +11,21 @@ func (h *Handler) GetAllProducts(c *gin.Context) {
 	products, err := h.services.ProductI.GetAll()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
 	}
 	c.JSON(http.StatusOK, products)
+	return
+
 }
 func (h *Handler) GetAllCategories(c *gin.Context) {
 	categories, err := h.services.ProductI.GetAllCategories()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, categories)
+	return
 }
 
 func (h *Handler) DeleteProduct(c *gin.Context) {
@@ -35,6 +40,7 @@ func (h *Handler) DeleteProduct(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"messsage": "ok"})
+	return
 }
 func (h *Handler) PostToProducts(c *gin.Context) {
 	var product model.ProductToAdd
@@ -47,6 +53,7 @@ func (h *Handler) PostToProducts(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "ok"})
+	return
 
 }
 
@@ -54,6 +61,8 @@ func (h *Handler) GetAllProviders(c *gin.Context) {
 	providers, err := h.services.ProductI.GetAllProviders()
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
 	}
 	c.JSON(http.StatusOK, providers)
+	return
 }

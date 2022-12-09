@@ -17,5 +17,6 @@ func NewPostgresDb() (*pgxpool.Pool, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return db, nil
 }
