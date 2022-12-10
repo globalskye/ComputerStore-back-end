@@ -29,10 +29,6 @@ func NewAuthPostgres(db *pgxpool.Pool) *AuthPostgres {
 	return &AuthPostgres{db: db}
 }
 
-type Exist struct {
-	UserExist bool `json:"aa"`
-}
-
 func (a *AuthPostgres) CreateUser(user model.User) (int, error) {
 
 	var id int

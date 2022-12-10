@@ -44,7 +44,7 @@ func (h *Handler) DeleteProduct(c *gin.Context) {
 }
 func (h *Handler) PostToProducts(c *gin.Context) {
 	var product model.ProductToAdd
-	if err := c.BindJSON(product); err != nil {
+	if err := c.BindJSON(&product); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}

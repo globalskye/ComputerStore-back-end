@@ -294,16 +294,6 @@ CREATE TABLE order_to_provider(
     date time,
     item int REFERENCES item(id) ON DELETE CASCADE
 );
-SELECT orders.id, date,price,cash,item.id, item_info.itemname,users.id,users.username,e.id,e.firstName FROM orders
-    JOIN employee e on e.id = orders.employee_id
-    JOIN item on orders.item_id = item.id
-    JOIN item_info on item.info_id = item_info.id
-    JOIN users on orders.user_id = users.id
-
-
-
-
-
 
 
 

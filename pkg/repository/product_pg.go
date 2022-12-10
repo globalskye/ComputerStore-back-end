@@ -15,21 +15,30 @@ func (p ProductPostgres) PostProductToStock(product model.ProductToAdd) error {
 	query := "INSERT INTO item_note(date_of_delivery, firstPrice, firstTax)" +
 		"VALUES (now(),$1,15) RETURNING id;"
 	var itemNoteId int
-	rows, err := p.db.Query(context.TODO(), query, product.Price)
-	if err := rows.Scan(&itemNoteId); err != nil {
+	err := p.db.QueryRow(context.TODO(), query, product.Price).Scan(&itemNoteId)
+	if err != nil {
 		return err
 	}
 	query = "INSERT INTO item_info(itemname, iteminfo, image, garantia)" +
 		"VALUES ($1,$2,$3,$4) RETURNING id;"
 	var itemInfoId int
-	rows, err = p.db.Query(context.TODO(), query, product.Name, product.Description, product.Image, product.Garantia)
-	if err := rows.Scan(&itemInfoId); err != nil {
+	err = p.db.QueryRow(context.TODO(), query, product.Name, product.Description, product.Image, product.Garantia).Scan(&itemInfoId)
+	if err != nil {
 		return err
 	}
 	query = "INSERT INTO item(note_id, info_id, provider_id, category_id)" +
-		"VALUES ($1,$2,$3,$4)"
-	_, err = p.db.Query(context.TODO(), query, itemNoteId, itemInfoId, product.ProviderId, product.CategoryId)
-
+		"VALUES ($1,$2,$3,$4) RETURNING id;"
+	var itemId int
+	err = p.db.QueryRow(context.TODO(), query, itemNoteId, itemInfoId, product.ProviderId, product.CategoryId).Scan(&itemId)
+	if err != nil {
+		return err
+	}
+	query = "INSERT INTO mainstock(item_id, itemcount)" +
+		"VALUES($1,$2)"
+	_, err = p.db.Exec(context.TODO(), query, itemId, product.Count)
+	if err != nil {
+		return err
+	}
 	return err
 }
 

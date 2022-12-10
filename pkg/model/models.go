@@ -26,6 +26,7 @@ type Product struct {
 type ProductToAdd struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
+	Count       int    `json:"count"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
 	Price       uint32 `json:"price"`
